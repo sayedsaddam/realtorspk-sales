@@ -292,4 +292,30 @@ class Reporting_model extends CI_Model{
         $this->db->group_by('employees.emp_city');
         return $this->db->get()->result();
     }
+
+    // locations summary for chart
+    public function agent_summary_chart($agent_id){
+    $this->db->select('daily_sales.id,
+                daily_sales.added_by,
+                MONTHNAME(daily_sales.rec_date) as recDate,
+                daily_sales.agent_id,
+                daily_sales.rec_amount,
+                daily_sales.rebate,
+                daily_sales.project,
+                daily_sales.edit_reason,
+                daily_sales.created_at,
+                employees.id as emp_id,
+                employees.emp_code,
+                employees.emp_name,
+                employees.emp_city,
+                employees.office');
+        $this->db->from('daily_sales');
+        $this->db->join('employees', 'daily_sales.agent_id = employees.emp_code', 'left');
+        $this->db->where('employees.id', $agent_id);
+        $this->db->like('daily_sales.rec_date', date('Y'));
+        $this->db->group_by('MONTH(daily_sales.rec_date)');
+        return $this->db->get()->result();
+
+    return $this->db->get()->result();
+}
 }

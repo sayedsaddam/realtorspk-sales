@@ -112,6 +112,30 @@
                     </tr>
                 </tbody>
             </table>
+  
         </div>
     </div>
+    <hr>
+    <div class="row">
+      <!-- Locations summary chart -->
+    
+        <div class="col-md-12"><h3>Monthly Agent summary for <span class="text-danger font-weight-bold"><?= date('Y'); ?></span>.</h3></div>
+    
+    <div class="col-md-12" id="agentSummary" class="mb-5" style="height: 500px;"></div>
+    </div>
+
+
 </div>
+<script>
+        // Monthly sales report > Locations
+        new Morris.Bar({
+      element: 'agentSummary',
+      data: <?php echo $agent_sales; ?>,
+      xkey: 'recDate',
+      ykeys: ['rec_amount'],
+      labels: ['Revenue'],
+      stacked: false,
+      hideHover: true,
+      resize: true
+   });
+    </script>

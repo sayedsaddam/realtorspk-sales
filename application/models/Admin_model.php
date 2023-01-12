@@ -994,4 +994,5 @@ class Admin_model extends CI_Model{
         $this->db->order_by('customers.created_at', 'DESC');
         return $this->db->get()->result();
     }
+
 }

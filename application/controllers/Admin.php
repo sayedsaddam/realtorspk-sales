@@ -2,7 +2,7 @@
 class Admin extends CI_Controller{
     function __construct(){
         parent::__construct();
-        $this->load->model(array('admin_model', 'home_model', 'inventory_model'));
+        $this->load->model(array('admin_model', 'home_model', 'inventory_model','reporting_model'));
         $this->load->helper('paginate'); // Custom pagination helper.
     }
     // Load the login page.
@@ -389,8 +389,11 @@ class Admin extends CI_Controller{
         $data['title'] = 'Sales Detail | Realtors PK';
         $data['content'] = 'admin/sales_detail';
         $data['detail'] = $this->admin_model->sale_detail($agent_id);
+        $agent_sales = $this->reporting_model->agent_summary_chart($agent_id);
+        $data['agent_sales'] = json_encode($agent_sales);
         $this->load->view('admin/commons/admin_template', $data);
     }
+
     // Filter records by month(date) and city.
     public function archives(){
         // $date = $this->input->get('archive_month');
