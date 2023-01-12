@@ -102,4 +102,18 @@ class Reporting_panel extends CI_Controller{
         $data['city'] = $data['targets'][0]->emp_city;
         $this->load->view('admin/commons/admin_template', $data);
     }
+        // charts
+        public function charts(){
+            $data['title'] = 'Charts > Reporting Panel';
+            $data['content'] = 'reporting-panel/charts';
+            $projects = $this->reporting_model->projects_summary_chart();
+            $data['projects'] = json_encode($projects);
+            $regions = $this->reporting_model->region_summary_chart();
+            $data['regions'] = json_encode($regions);
+            $bcms = $this->reporting_model->bcms_summary_chart();
+            $data['bcms'] = json_encode($bcms);
+            $locations = $this->reporting_model->location_summary_chart();
+            $data['locations'] = json_encode($locations);
+            $this->load->view('admin/commons/admin_template', $data);
+        }
 }
