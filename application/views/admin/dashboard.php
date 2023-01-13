@@ -124,6 +124,7 @@
                         <h5 class="card-title">Sales Stats</h5>
                             <button data-toggle="modal" data-target="#daily_sales" class="btn btn-outline-info btn-sm">Add New</button>
                             <a href="<?= base_url('admin/daily_sales'); ?>" class="btn btn-outline-secondary btn-sm">Detail</a>
+                            <a href="<?= base_url('reporting_panel/agent_stats/Peshawar'); ?>" class="btn btn-outline-primary btn-sm" title="Agents in Green, Yellow, or Red Zone...">More &raquo;</a>
                         <?php else: echo "No further action!"; endif; // Access level - role based. ?>
                     </div>
                     <div class="card-footer text-right">
