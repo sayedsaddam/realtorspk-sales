@@ -216,46 +216,48 @@ class Admin extends CI_Controller{
         $filter_data = $this->admin_model->get_sales_agents($city);
         echo json_encode($filter_data);
     }
-    // Add monthly targets.
-	public function assign_targets(){
-		if(isset($_POST)){
-			$data = array();
-			$data2 = array();
-			$data3 = array();
-			foreach($_POST['month'] as $key2 => $value2){
-				if($value2 != '' ){
-					array_push($data2, $value2);
-				}
-			}
-			foreach($_POST['revenue'] as $key3 => $value3){
-				if($value3 != ''){
-					array_push($data3, $value3);
-				}
-			}
-			for($i = 0; $i < count($_POST['emp_id']); $i++){
-				$data[$i] = array(
-                    'added_by' => $this->session->userdata('id'),
-					'emp_id' => $_POST['emp_id'][$i],
-					'target_month' => $data2[$i].', '.date('Y'),
-					'revenue_target' => $data3[$i],
-                );
-                $check_before_assign = $this->db->get_where('targets', array('target_month' => date('F, Y'), 'emp_id' => $_POST['emp_id'][$i]))->result();
-            }
-            if($check_before_assign == TRUE){
-                $this->session->set_flashdata("failed", "<strong>Failed! </strong> You can't assign target twice in the same month."); // Failed to insert record. Targets can't be assigned twice in a month.
-                redirect('admin/dashboard');
-                return false;
-            }
-            // echo "<pre>"; print_r($data);
-			if($this->admin_model->assign_targets($data)){
-				$this->session->set_flashdata('success', '<strong>Success! </strong>Target added successfully.');
-				redirect('admin/dashboard');
-			}else{
-				$this->session->set_flashdata('failed', '<strong>Failed! </strong>Failed to add target.');
-				redirect('admin/dashboard');
-			}
-        }
-    }
+    // Add monthly targets backup 13January.
+
+	// public function assign_targets(){
+	// 	if(isset($_POST)){
+	// 		$data = array();
+	// 		$data2 = array();
+	// 		$data3 = array();
+	// 		foreach($_POST['month'] as $key2 => $value2){
+	// 			if($value2 != '' ){
+	// 				array_push($data2, $value2);
+	// 			}
+	// 		}
+	// 		foreach($_POST['revenue'] as $key3 => $value3){
+	// 			if($value3 != ''){
+	// 				array_push($data3, $value3);
+	// 			}
+	// 		}
+	// 		for($i = 0; $i < count($_POST['emp_id']); $i++){
+	// 			$data[$i] = array(
+    //                 'added_by' => $this->session->userdata('id'),
+	// 				'emp_id' => $_POST['emp_id'][$i],
+	// 				'target_month' => $data2[$i].', '.date('Y'),
+	// 				'revenue_target' => $data3[$i],
+    //             );
+    //             $check_before_assign = $this->db->get_where('targets', array('target_month' => date('F, Y'), 'emp_id' => $_POST['emp_id'][$i]))->result();
+    //         }
+    //         if($check_before_assign == TRUE){
+    //             $this->session->set_flashdata("failed", "<strong>Failed! </strong> You can't assign target twice in the same month."); // Failed to insert record. Targets can't be assigned twice in a month.
+    //             redirect('admin/dashboard');
+    //             return false;
+    //         }
+    //         // echo "<pre>"; print_r($data);
+	// 		if($this->admin_model->assign_targets($data)){
+	// 			$this->session->set_flashdata('success', '<strong>Success! </strong>Target added successfully.');
+	// 			redirect('admin/dashboard');
+	// 		}else{
+	// 			$this->session->set_flashdata('failed', '<strong>Failed! </strong>Failed to add target.');
+	// 			redirect('admin/dashboard');
+	// 		}
+    //     }
+    // }
+
     // Show all targets.
     public function assigned_targets($offset = NULL){
         if(!$this->session->userdata('username')){
@@ -788,4 +790,81 @@ class Admin extends CI_Controller{
         $this->session->sess_destroy();
         redirect('admin');
     }
+
+    public function save_targets(){
+
+            if(!$this->session->userdata('username')){
+                redirect('admin');
+            }
+    
+            // role('fe'); // check the user role for the current page.
+            if (isset($_POST)){
+                // print_r($_POST['emp_id']);exit;
+                $empId = array();
+                $target = array();
+                $month = array();
+                $data=array();
+                $data_sales=array();
+                foreach($_POST['emp_id'] as $key => $data1){
+                    if($data1 != ''){
+                        array_push($empId, $data1);
+                    }
+                }
+                foreach($_POST['revenue'] as $key2 => $data2){
+                    if($data2 != ''){
+                        array_push($target, $data2);
+                    }
+                }
+                foreach($_POST['month'] as $key2 => $data3){
+                    if($data3 != ''){
+                        array_push($month, $data3);
+                    }
+                }
+                for ($j = 0; $j < count($_POST['emp_id']); $j++) {
+                    $split = explode(':', $month[$j]);
+                    $data = array(
+                    'emp_id' => $empId[$j], // first part > Employee ID
+                    'target_month' => $split[0].', '.date('Y'), // second part > Team ID // In realtors code col name->'month'
+                    'target_year' => date('Y'), //was not present previously
+                    'revenue_target' => $target[$j],
+                    'added_by' => $this->session->userdata('id')
+                    );
+                    $check_existing = $this->db->get_where('targets', array('emp_id' => $empId[$j], 'target_month' => $split[0].', '.date('Y')))->result();// In realtors code, there was 'year'=>$split[1]
+                    if($check_existing == TRUE){
+                        $this->session->set_flashdata('failed', '<strong>Failed! </strong>Targets are already assigned for this month.');
+                        redirect($_SERVER['HTTP_REFERER']);
+                        return false;
+                    }
+                    else{
+                        $target_id = $this->admin_model->assign_targets($data); //get last inserted id for targets to store in daily_sales tables.
+                        //auto assigning sales
+                        // echo $target_id;exit;
+                        $projects = array('091 Mall', 'Florenza', 'MoH', 'North Hills', 'AH Tower', 'AH City');
+                        $split = explode(':', $empId[$j]);
+                            // print_r('split val'.$split[1]);exit;
+                        $data_sales[$j] = array(
+                                'agent_id' => $split[0], // first part > Employee ID
+                                'team' => $split[1], // second part > Team ID
+                                // 'target_id' => $target_id,
+                                'project' => $projects[rand(0, 5)],
+                                'rec_date' => date('Y-m-d H:i:s'),
+                                'rec_amount' => 0,
+                                'rebate' => 0,
+                                'added_by' => $this->session->userdata('id')
+                        );
+                        $this->admin_model->add_daily_sales($data_sales);
+                    }
+                    $data=array();
+                    $data_sales=array();
+                }
+                $this->session->set_flashdata('success', '<strong>Success! </strong>Targets assignment was successful.');
+                redirect($_SERVER['HTTP_REFERER']);
+            }
+            else{
+                $this->session->set_flashdata('failed', '<strong>Failed! </strong>You must select an employee in order to assign target.');
+                redirect($_SERVER['HTTP_REFERER']);
+                return false;
+            }
+    }
+    // auto save sales code
 }

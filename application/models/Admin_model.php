@@ -416,7 +416,7 @@ class Admin_model extends CI_Model{
     }
     // Get sales agents to assign monthly revenue targets.
     public function get_sales_agents($city){
-        $this->db->select('employees.id as emp_id, employees.emp_code, employees.emp_name, targets.id as target_id, targets.target_month, targets.emp_id, targets.revenue_target, targets.created_at');
+        $this->db->select('employees.id as emp_id, employees.emp_code ,employees.emp_team , employees.emp_name, targets.id as target_id, targets.target_month, targets.emp_id, targets.revenue_target, targets.created_at');
         $this->db->from('employees');
         $this->db->join('targets', 'employees.emp_code = targets.emp_id', 'left');
         // $this->db->group_by('targets.emp_id');
@@ -432,11 +432,21 @@ class Admin_model extends CI_Model{
         $this->db->where('target_month', date('F, Y'));
         return $this->db->get()->result();
     }
-    // Assign targets.
+    // Assign targets previous code backup//.
+    // public function assign_targets($data){
+    //     $this->db->insert_batch('targets', $data);
+    //     if($this->db->affected_rows() > 0){
+    //         return true;
+    //     }else{
+    //         return false;
+    //     }
+    // }
+    // Assign targets .
     public function assign_targets($data){
-        $this->db->insert_batch('targets', $data);
+        $this->db->insert('targets', $data);
+        $insert_id = $this->db->insert_id(); //last insert id from tbl
         if($this->db->affected_rows() > 0){
-            return true;
+            return $insert_id;
         }else{
             return false;
         }
@@ -603,6 +613,7 @@ class Admin_model extends CI_Model{
     }
     // Adding daily sales into the database.
     public function add_daily_sales($data){
+        // print_r('add daily sales');exit;
         $this->db->insert_batch('daily_sales', $data);
         if($this->db->affected_rows() > 0){
             return true;

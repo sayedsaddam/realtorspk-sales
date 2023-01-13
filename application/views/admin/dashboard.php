@@ -496,7 +496,7 @@
                 </div><hr>
                 <div class="row">
                     <div class="col-xl-lg-12 col-md-12 table-responsive">
-                        <form action="<?php echo base_url('admin/assign_targets'); ?>" method="post">
+                        <form action="<?php echo base_url('admin/save_targets'); ?>" method="post">
                             <table class="table table-bordered table-sm">
                                 <thead class="table-dark">
                                 <tr>
@@ -818,7 +818,7 @@
                         $('#sales_team').html('');
                         $.each(data, function(index, item){
                             $('#sales_team').append(`<tr>
-                            <td><input type="checkbox" id="emp_id" name="emp_id[]" value="${item.emp_code}"></td>
+                            <td><input type="checkbox" id="emp_id" name="emp_id[]" value="${item.emp_code}:${item.emp_team}"></td>
                             <td>${item.emp_name}</td>
                             <td><input type="text" class="form-control assign_month" value="${item.revenue_target}"></td>
                             <td><input type="text" name="revenue[]" class="form-control revenue_month" placeholder="Revenue Target..."></td>
