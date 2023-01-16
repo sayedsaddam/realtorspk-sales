@@ -1005,5 +1005,16 @@ class Admin_model extends CI_Model{
         $this->db->order_by('customers.created_at', 'DESC');
         return $this->db->get()->result();
     }
+       // get designations
+    public function get_designations(){
+        return $this->db->select('id, designation_name')->get('designations')->result();
+    }
+    public function get_managers($designation_id){
+        $this->db->select('id, emp_code, emp_name');
+        $this->db->from('employees');
+        $this->db->where(array('designation' => $designation_id, 'emp_status' => 1));
+        $this->db->order_by('emp_name', 'asc');
+        return $this->db->get()->result();
+    }
 
 }

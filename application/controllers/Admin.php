@@ -92,6 +92,7 @@ class Admin extends CI_Controller{
         $data['content'] = 'admin/dashboard';
         $data['check_for_targets'] = $this->admin_model->check_for_targets(); //Check for targets and restrict duplicate.
         $data['departments'] = $this->admin_model->get_departments();
+        $data['designations'] = $this->admin_model->get_designations();
         $data['total_this_month'] = $this->admin_model->total_this_month();
         $data['total_sales_this_month'] = $this->admin_model->total_sales_this_month();
         $data['total_agents_this_month'] = $this->admin_model->total_agents_this_month();
@@ -150,6 +151,8 @@ class Admin extends CI_Controller{
             'emp_code' => $this->input->post('emp_code'),
             'emp_name' => $this->input->post('emp_name'),
 			'gender' => $this->input->post('gender'),
+            'manager_id' => $this->input->post('manager_id'),
+            'designation' => $this->input->post('designation'),
             'office' => $this->input->post('office'),
             'doj' => $this->input->post('doj'),
             'emp_number' => $this->input->post('emp_phone'),
@@ -799,7 +802,6 @@ class Admin extends CI_Controller{
     
             // role('fe'); // check the user role for the current page.
             if (isset($_POST)){
-                // print_r($_POST['emp_id']);exit;
                 $empId = array();
                 $target = array();
                 $month = array();
@@ -824,8 +826,8 @@ class Admin extends CI_Controller{
                     $split = explode(':', $month[$j]);
                     $data = array(
                     'emp_id' => $empId[$j], // first part > Employee ID
-                    'target_month' => $split[0].', '.date('Y'), // second part > Team ID // In realtors code col name->'month'
-                    'target_year' => date('Y'), //was not present previously
+                    'target_month' => $split[0].', '.date('Y'), // second part > Team ID 
+                    'target_year' => date('Y'), 
                     'revenue_target' => $target[$j],
                     'added_by' => $this->session->userdata('id')
                     );
@@ -867,4 +869,10 @@ class Admin extends CI_Controller{
             }
     }
     // auto save sales code
+       // get managers
+       public function get_managers($designation_id){
+
+        $data = $this->admin_model->get_managers($designation_id);
+        echo json_encode($data);
+    }
 }
