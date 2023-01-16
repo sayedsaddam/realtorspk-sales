@@ -35,10 +35,9 @@
                     <div class="col">
                         <select name="emp_search" class="form-control" title="Filter employees by city">
                             <option value="">--Select One--</option>
-                            <option value="Islamabad">Islamabad</option>
-                            <option value="Peshawar">Peshawar</option>
-                            <option value="Hangu">Hangu</option>
-                            <option value="Kohat">Kohat</option>
+                            <?php if(!empty($locations)): foreach($locations as $loc): ?>
+									<option value="<?= $loc->name; ?>"><?= $loc->name; ?></option>
+							<?php endforeach; endif; ?>
                         </select>
                     </div>
                     <div class="col">

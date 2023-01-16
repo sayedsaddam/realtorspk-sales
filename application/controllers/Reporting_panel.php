@@ -16,6 +16,7 @@ class Reporting_panel extends CI_Controller{
     public function index(){
         $data['title'] = 'Reporting Home > AH Group';
         $data['content'] = 'reporting-panel/reporting-home';
+        $data['locations'] = $this->reporting_model->get_locations();
         $data['teams'] = $this->admin_model->get_sales_teams();
         $this->load->view('admin/commons/admin_template', $data);
     }

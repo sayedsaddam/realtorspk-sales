@@ -47,10 +47,9 @@
                     <div class="col-3">
                         <select name="region" class="browser-default custom-select form-control-sm">
                             <option value="" selected disabled>--Region--</option>
-                            <option value="islamabad">Islamabad</option>
-                            <option value="peshawar">Peshawar</option>
-                            <option value="hangu">Hangu</option>
-                            <option value="kohat">Kohat</option>
+                            <?php if(!empty($locations)): foreach($locations as $loc): ?>
+									<option value="<?= strtolower($loc->name); ?>"><?= $loc->name; ?></option>
+							<?php endforeach; endif; ?>
                         </select>
                     </div>
                     <div class="col-3">

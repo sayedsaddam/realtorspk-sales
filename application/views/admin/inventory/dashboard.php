@@ -174,12 +174,12 @@
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        <?php $locations = array('Islamabad', 'Peshawar', 'Hangu', 'Kohat', 'Murree', 'Karachi'); ?>
+                    
                         <select name="location" class="custom-select">
                             <option value="" disabled selected>Project Location</option>
-                            <?php foreach($locations as $location): ?>
-                                <option value="<?= $location; ?>"><?= $location; ?></option>
-                            <?php endforeach; ?>
+                            <?php if(!empty($locations)): foreach($locations as $loc): ?>
+									<option value="<?= $loc->name; ?>"><?= $loc->name; ?></option>
+							<?php endforeach; endif; ?>
                         </select>
                     </div>
                     <div class="form-group">
@@ -215,12 +215,12 @@
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        <?php $locations = array('Islamabad', 'Peshawar', 'Hangu', 'Kohat', 'Murree', 'Karachi'); ?>
+              
                         <select name="location" class="custom-select location">
                             <option value="" disabled selected>Project Location</option>
-                            <?php foreach($locations as $location): ?>
-                                <option value="<?= $location; ?>"><?= $location; ?></option>
-                            <?php endforeach; ?>
+                            <?php if(!empty($locations)): foreach($locations as $loc): ?>
+									<option value="<?= $loc->name; ?>"><?= $loc->name; ?></option>
+							<?php endforeach; endif; ?>
                         </select>
                     </div>
                     <div class="form-group">

@@ -348,4 +348,8 @@ class Inventory_model extends CI_Model{
         $this->db->order_by('units.id', 'DESC');
         return $this->db->get()->result();
     }
+    //get locations
+    public function get_locations(){
+        return $this->db->select('id, name')->get('locations')->result();
+    }
 }

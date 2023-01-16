@@ -93,6 +93,7 @@ class Admin extends CI_Controller{
         $data['check_for_targets'] = $this->admin_model->check_for_targets(); //Check for targets and restrict duplicate.
         $data['departments'] = $this->admin_model->get_departments();
         $data['designations'] = $this->admin_model->get_designations();
+        $data['locations'] = $this->admin_model->get_locations();
         $data['total_this_month'] = $this->admin_model->total_this_month();
         $data['total_sales_this_month'] = $this->admin_model->total_sales_this_month();
         $data['total_agents_this_month'] = $this->admin_model->total_agents_this_month();
@@ -137,6 +138,7 @@ class Admin extends CI_Controller{
         $data['content'] = 'admin/employees';
         $data['employees'] = $this->admin_model->get_employees($limit, $offset);
         $data['teams'] = $this->admin_model->teams_for_selectbox();
+        $data['locations'] = $this->admin_model->get_locations();
         $this->load->view('admin/commons/admin_template', $data);
     }
     // inactive employees.
@@ -156,7 +158,7 @@ class Admin extends CI_Controller{
             'office' => $this->input->post('office'),
             'doj' => $this->input->post('doj'),
             'emp_number' => $this->input->post('emp_phone'),
-            'emp_city' => $this->input->post('emp_city'),
+            'emp_city' => $this->input->post('emp_city'),//id of location
             'emp_department' => $this->input->post('emp_department'),
             'emp_team' => $this->input->post('emp_team'),
             'added_by' => $this->session->userdata('id'),
@@ -211,6 +213,7 @@ class Admin extends CI_Controller{
         $data['daily_sales_peshawar'] = $this->admin_model->get_daily_sales_peshawar();
         $data['daily_sales_islamabad'] = $this->admin_model->get_daily_sales_islamabad();
         $data['daily_sales_kohat'] = $this->admin_model->get_daily_sales_kohat();
+        $data['locations'] = $this->admin_model->get_locations();
         // $data['last_updated_by'] = $this->admin_model->last_updated_by();
         $this->load->view('admin/commons/admin_template', $data);
     }
@@ -276,6 +279,7 @@ class Admin extends CI_Controller{
         $data['title'] = 'Assigned Targets | Realtors PK';
         $data['content'] = 'admin/targets';
         $data['targets'] = $this->admin_model->get_targets($limit, $offset);
+        $data['locations'] = $this->admin_model->get_locations();
         $data['total_this_month'] = $this->admin_model->total_this_month();
         // echo "<pre>"; print_r($data['targets']); exit;
         $this->load->view('admin/commons/admin_template', $data);
@@ -423,6 +427,8 @@ class Admin extends CI_Controller{
         $data['title'] = 'Rebate Calculations | Realtors PK';
         $data['content'] = 'admin/rebate';
         $data['rebates'] = $this->admin_model->rebate_calculations($limit, $offset);
+        $data['locations'] = $this->admin_model->get_locations();
+        
         // echo '<pre>'; print_r($data['rebates']);
         $this->load->view('admin/commons/admin_template', $data);
     }

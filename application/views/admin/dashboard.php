@@ -441,10 +441,9 @@
 							 <label for="city">City</label>
 							<select name="emp_city" class="custom-select mb-2" required>
 								<option value="" disabled selected>-- Select One --</option>
-								<option value="Islamabad">Islamabad</option>
-								<option value="Peshawar">Peshawar</option>
-								<option value="Hangu">Hangu</option>
-								<option value="Kohat">Kohat</option>
+                                <?php if(!empty($locations)): foreach($locations as $loc): ?>
+									<option value="<?= $loc->name; ?>"><?= $loc->name; ?></option>
+								<?php endforeach; endif; ?>
 							</select>
 						</div>
 					</div>
@@ -512,10 +511,9 @@
                     <div class="col-xl-lg-6 col-md-6 col-sm-6">
                         <select name="city" id="city" class="form-control">
                             <option value="">-- Select City --</option>
-                            <option value="islamabad">Islamabad</option>
-                            <option value="peshawar">Peshawar</option>
-                            <option value="hangu">Hangu</option>
-                            <option value="kohat">Kohat</option>
+                            <?php if(!empty($locations)): foreach($locations as $loc): ?>
+									<option value="<?= strtolower($loc->name); ?>"><?= $loc->name; ?></option>
+								<?php endforeach; endif; ?>
                         </select>
                     </div>
                     <div class="col-xl-lg-6 col-md-6 col-sm-6">
@@ -574,10 +572,9 @@
                     <div class="col-xl-lg-6 col-md-6 col-sm-6">
                         <select name="city" id="dailySalesCity" class="form-control">
                             <option value="">-- Select City --</option>
-                            <option value="islamabad">Islamabad</option>
-                            <option value="peshawar">Peshawar</option>
-                            <option value="hangu">Hangu</option>
-                            <option value="kohat">Kohat</option>
+                              <?php if(!empty($locations)): foreach($locations as $loc): ?>
+									<option value="<?= strtolower($loc->name); ?>"><?= $loc->name; ?></option>
+								<?php endforeach; endif; ?>
                         </select>
                     </div>
                     <div class="col-xl-lg-6 col-md-6 col-sm-6">

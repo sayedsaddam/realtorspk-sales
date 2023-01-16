@@ -336,4 +336,8 @@ class Reporting_model extends CI_Model{
         $this->db->group_by('daily_sales.agent_id');
         return $this->db->get()->result();
     }
+        //get locations
+        public function get_locations(){
+            return $this->db->select('id, name')->get('locations')->result();
+        }
 }
