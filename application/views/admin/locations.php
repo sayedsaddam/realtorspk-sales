@@ -22,7 +22,13 @@
         <div class="alert alert-danger"><?= $failed; ?></div>
     <?php endif; ?>
     <div class="row">
-        <div class="col-12 mb-2">
+        <div class="col-md-6 mb-2">
+        <h2 class="font-weight-bold">
+            List of Locations
+        </h2>
+        
+        </div>
+        <div class="col-md-6 mb-2 text-right">
         <button data-toggle="modal" data-target="#add_location" class="btn btn-outline-info btn-sm">Add New Location</button>
         
         </div>
@@ -145,33 +151,3 @@
     </div>
     <!-- Modal for adding new location ends -->
 </div>
-<script>
-    $('.location-delete').click(function(e){  
-        e.preventDefault();
-        var location_id = $(this).data('id');
-        Swal.fire({
-            title: 'Are you sure to delete this location?',
-            showCancelButton: true,
-            confirmButtonText: 'Yes',
-            }).then((result) => {
-            /* Read more about isConfirmed, isDenied below */
-            if (result.isConfirmed) {
-                $.ajax({
-                url: '<?= base_url('admin/delete_location/'); ?>' + location_id,
-                method: 'POST',
-                dataType: 'JSON',
-                data: {location_id: location_id},
-                success: function(response){
-                    console.log(response);
-                    // alert(response);
-                    Swal.fire('Location Deleted!', '', 'success');
-                    $('tr#'+location_id).remove();
-                }
-                });
-            } else {
-                Swal.fire('Deletion cancelled');
-            }
-        });
-    });
-    
-</script>
