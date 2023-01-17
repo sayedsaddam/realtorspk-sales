@@ -58,10 +58,9 @@
                         <label for="city">City</label>
                             <select name="city" id="city" class="form-control">
                                 <option value="" selected disabled>--select city--</option>
-                                <option value="Islamabad">Islamabad</option>
-                                <option value="Peshawar">Peshawar</option>
-                                <option value="Hangu">Hangu</option>
-                                <option value="Kohat">Kohat</option>
+                                <?php if(!empty($locations)): foreach($locations as $loc): ?>
+									<option value="<?= $loc->name; ?>"><?= $loc->name; ?></option>
+								<?php endforeach; endif; ?>
                             </select>
                         </div>
                     </div>

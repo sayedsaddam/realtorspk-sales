@@ -82,6 +82,7 @@
                         <?php if($session == 2 OR $session == 10): ?>
                             <button data-toggle="modal" data-target="#add_employee" class="btn btn-outline-info btn-sm">Add New</button>
                             <a href="<?= base_url('admin/employees'); ?>" class="btn btn-outline-secondary btn-sm">Detail</a>
+                            <a href="<?= base_url('admin/locations'); ?>" class="btn btn-outline-secondary btn-sm">Locations</a>
                         <?php else: echo 'No further action!'; endif; ?>
                     </div>
                     <div class="card-footer text-right">
@@ -124,6 +125,7 @@
                         <h5 class="card-title">Sales Stats</h5>
                             <button data-toggle="modal" data-target="#daily_sales" class="btn btn-outline-info btn-sm">Add New</button>
                             <a href="<?= base_url('admin/daily_sales'); ?>" class="btn btn-outline-secondary btn-sm">Detail</a>
+                            <a href="<?= base_url('reporting_panel/agent_stats/Peshawar'); ?>" class="btn btn-outline-primary btn-sm" title="Agents in Green, Yellow, or Red Zone...">More &raquo;</a>
                         <?php else: echo "No further action!"; endif; // Access level - role based. ?>
                     </div>
                     <div class="card-footer text-right">
@@ -378,15 +380,19 @@
             <div class="modal-body">
                 <form action="<?= base_url('admin/add_employee'); ?>" method="post">
 					<div class="row">
-						<div class="col-md-4">
+						<div class="col-md-6">
 							<label for="emp_code">Employee Code</label>
                     		<input type="text" name="emp_code" class="form-control mb-2" placeholder="Employee code i.e 40" required>
 						</div>
-						<div class="col-md-4">
+						<div class="col-md-6">
 							<label for="name">Employee Name</label>
                     		<input type="text" name="emp_name" class="form-control mb-2" placeholder="Employee name..." required>
 						</div>
-						<div class="col-md-4">
+					
+					</div>
+                    <div class="row">
+                      
+                        <div class="col-md-6">
 							<label for="gender">Gender</label>
 							<select name="gender" class="custom-select">
 								<option value="" disabled selected>-- Select One --</option>
@@ -394,7 +400,16 @@
 								<option value="f">Female</option>
 							</select>
 						</div>
-					</div>
+                        <div class="col-md-6">
+                            <label for="designation">Designation</label>
+                            <select name="designation" class="custom-select mb-2">
+                                <option value="" disabled selected>-- Select One --</option>
+                                <?php if(!empty($designations)): foreach($designations as $des): ?>
+                                    <option value="<?= $des->id; ?>"><?= $des->designation_name; ?></option>
+                                <?php endforeach; endif; ?>
+                            </select>
+                        </div>
+                    </div>
                     <div class="row">
 						<div class="col-md-6">
 							<label for="office">Office</label>
@@ -412,6 +427,7 @@
                     		<input type="text" name="emp_phone" class="form-control mb-2" placeholder="Mobile no. i.e. 03439343456" required>
 						</div>
 					</div>
+                
                     <div class="row">
 						<div class="col-md-6">
 							<label for="department">Department</label>
@@ -426,10 +442,9 @@
 							 <label for="city">City</label>
 							<select name="emp_city" class="custom-select mb-2" required>
 								<option value="" disabled selected>-- Select One --</option>
-								<option value="Islamabad">Islamabad</option>
-								<option value="Peshawar">Peshawar</option>
-								<option value="Hangu">Hangu</option>
-								<option value="Kohat">Kohat</option>
+                                <?php if(!empty($locations)): foreach($locations as $loc): ?>
+									<option value="<?= $loc->name; ?>"><?= $loc->name; ?></option>
+								<?php endforeach; endif; ?>
 							</select>
 						</div>
 					</div>
@@ -448,6 +463,23 @@
 							</select>
 						</div>
 					</div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="report_to">Report To</label>
+                            <select id="reportsTo" class="custom-select mb-4">
+                                <option value="" disabled selected>-- Select One --</option>
+                                <?php if(!empty($designations)): foreach($designations as $des):  ?>
+                                    <option value="<?= $des->id; ?>"><?= $des->designation_name; ?></option>
+                                <?php  endforeach; endif; ?>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="manager_id">Manager Name</label>
+                            <select name="manager_id" id="manager_id" class="custom-select mb-4">
+                                <option value="" disabled selected>-- Select One --</option>
+                            </select>
+                        </div>
+                    </div>
 					<div class="row">
 						<div class="col-md-6">
 							<button type="submit" class="btn btn-primary btn-block">Save Changes</button>
@@ -480,10 +512,9 @@
                     <div class="col-xl-lg-6 col-md-6 col-sm-6">
                         <select name="city" id="city" class="form-control">
                             <option value="">-- Select City --</option>
-                            <option value="islamabad">Islamabad</option>
-                            <option value="peshawar">Peshawar</option>
-                            <option value="hangu">Hangu</option>
-                            <option value="kohat">Kohat</option>
+                            <?php if(!empty($locations)): foreach($locations as $loc): ?>
+									<option value="<?= strtolower($loc->name); ?>"><?= $loc->name; ?></option>
+								<?php endforeach; endif; ?>
                         </select>
                     </div>
                     <div class="col-xl-lg-6 col-md-6 col-sm-6">
@@ -495,7 +526,7 @@
                 </div><hr>
                 <div class="row">
                     <div class="col-xl-lg-12 col-md-12 table-responsive">
-                        <form action="<?php echo base_url('admin/assign_targets'); ?>" method="post">
+                        <form action="<?php echo base_url('admin/save_targets'); ?>" method="post">
                             <table class="table table-bordered table-sm">
                                 <thead class="table-dark">
                                 <tr>
@@ -542,10 +573,9 @@
                     <div class="col-xl-lg-6 col-md-6 col-sm-6">
                         <select name="city" id="dailySalesCity" class="form-control">
                             <option value="">-- Select City --</option>
-                            <option value="islamabad">Islamabad</option>
-                            <option value="peshawar">Peshawar</option>
-                            <option value="hangu">Hangu</option>
-                            <option value="kohat">Kohat</option>
+                              <?php if(!empty($locations)): foreach($locations as $loc): ?>
+									<option value="<?= strtolower($loc->name); ?>"><?= $loc->name; ?></option>
+								<?php endforeach; endif; ?>
                         </select>
                     </div>
                     <div class="col-xl-lg-6 col-md-6 col-sm-6">
@@ -817,7 +847,7 @@
                         $('#sales_team').html('');
                         $.each(data, function(index, item){
                             $('#sales_team').append(`<tr>
-                            <td><input type="checkbox" id="emp_id" name="emp_id[]" value="${item.emp_code}"></td>
+                            <td><input type="checkbox" id="emp_id" name="emp_id[]" value="${item.emp_code}:${item.emp_team}"></td>
                             <td>${item.emp_name}</td>
                             <td><input type="text" class="form-control assign_month" value="${item.revenue_target}"></td>
                             <td><input type="text" name="revenue[]" class="form-control revenue_month" placeholder="Revenue Target..."></td>
@@ -865,4 +895,25 @@
             $('.receiving_date').val(sales_date);
         });
     });
+
+        // get all employees against a designation
+        $('#reportsTo').change(function(){
+            
+            var managers = $(this).val();
+            console.log(managers);
+            $.ajax({
+                url: '<?= base_url('admin/get_managers/') ?>' + managers,
+                method: 'POST',
+                dataType: 'JSON',
+                data: {managers: managers},
+                success: function(res){
+                    console.log(res);
+                    $('#manager_id').find('option').not(':first').remove();
+                    // add options
+                    $.each(res, function(index, data){
+                        $('#manager_id').append('<option value="'+data['id']+'">'+data['emp_name']+'</option>');
+                    });
+                }
+            });
+        });
 </script>

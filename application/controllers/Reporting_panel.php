@@ -16,6 +16,7 @@ class Reporting_panel extends CI_Controller{
     public function index(){
         $data['title'] = 'Reporting Home > AH Group';
         $data['content'] = 'reporting-panel/reporting-home';
+        $data['locations'] = $this->reporting_model->get_locations();
         $data['teams'] = $this->admin_model->get_sales_teams();
         $this->load->view('admin/commons/admin_template', $data);
     }
@@ -100,6 +101,27 @@ class Reporting_panel extends CI_Controller{
         $data['targets'] = $this->reporting_model->annual_summary_targets($city);
         $data['sales'] = $this->reporting_model->annual_summary_sales($city);
         $data['city'] = $data['targets'][0]->emp_city;
+        $this->load->view('admin/commons/admin_template', $data);
+    }
+    // charts
+    public function charts(){
+        $data['title'] = 'Charts > Reporting Panel';
+        $data['content'] = 'reporting-panel/charts';
+        $projects = $this->reporting_model->projects_summary_chart();
+        $data['projects'] = json_encode($projects);
+        $regions = $this->reporting_model->region_summary_chart();
+        $data['regions'] = json_encode($regions);
+        $bcms = $this->reporting_model->bcms_summary_chart();
+        $data['bcms'] = json_encode($bcms);
+        $locations = $this->reporting_model->location_summary_chart();
+        $data['locations'] = json_encode($locations);
+        $this->load->view('admin/commons/admin_template', $data);
+    }
+        // agent stats
+    public function agent_stats($city){
+        $data['title'] = 'Agent Stats > Reporting Panel';
+        $data['content'] = 'reporting-panel/agent-stats';
+        $data['sales'] = $this->reporting_model->agent_stats($city);
         $this->load->view('admin/commons/admin_template', $data);
     }
 }

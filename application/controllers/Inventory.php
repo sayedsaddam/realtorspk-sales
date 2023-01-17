@@ -26,6 +26,8 @@ class Inventory extends CI_Controller{
         $data['total_projects'] = $this->inventory_model->total_projects();
         $data['total_floors'] = $this->inventory_model->total_floors();
         $data['total_units'] = $this->inventory_model->total_units();
+        $data['locations'] = $this->inventory_model->get_locations();
+
         $this->load->view('admin/commons/admin_template', $data);
     }
     // add project

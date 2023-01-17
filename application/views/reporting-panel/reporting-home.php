@@ -21,7 +21,15 @@
                         <a href="<?= base_url('reporting_panel/projects_summary'); ?>" class="btn btn-outline-light btn-block btn-sm">Projects Summary</a>
                     </div>
                 </div>
-                <a href="<?= base_url('reporting_panel/annual_summary/Peshawar'); ?>" class="btn btn-outline-light btn-block btn-sm">Annual Summary Report</a>
+                <div class="row no-gutters">
+                    <div class="col-md-6">
+                        <a href="<?= base_url('reporting_panel/annual_summary/Peshawar'); ?>" class="btn btn-outline-light btn-block btn-sm mb-2">Annual Summary Report</a>
+                    </div>
+                    <div class="col-md-6">
+                        <a href="<?= base_url('reporting_panel/charts'); ?>" class="btn btn-outline-light btn-block btn-sm">Report Graphs</a>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>
@@ -135,10 +143,10 @@
                                     <div class="form-group">
                                         <select name="city" id="city" class="form-control form-control-sm">
                                             <option value="" selected disabled>--select city--</option>
-                                            <option value="Islamabad">Islamabad</option>
-                                            <option value="Peshawar">Peshawar</option>
-                                            <option value="Hangu">Hangu</option>
-                                            <option value="Kohat">Kohat</option>
+                                            <?php if(!empty($locations)): foreach($locations as $loc): ?>
+									            <option value="<?= $loc->name; ?>"><?= $loc->name; ?>
+                                            </option>
+							                <?php endforeach; endif; ?>
                                         </select>
                                     </div>
                                 </div>

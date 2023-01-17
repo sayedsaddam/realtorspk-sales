@@ -242,4 +242,102 @@ class Reporting_model extends CI_Model{
         $this->db->group_by('MONTH(daily_sales.rec_date)');
         return $this->db->get()->result();
     }
+    //charts start --> report graphs
+    public function projects_summary_chart(){
+        $this->db->select_sum('rec_amount');
+        $this->db->select('rec_date, project');
+        $this->db->from('daily_sales');
+        $this->db->like('daily_sales.rec_date', date('Y-m'));
+        $this->db->group_by('project');
+        // exit;
+        return $this->db->get()->result();
+    }
+    // region summary for chart
+    public function region_summary_chart(){
+        $this->db->select('SUM(if(project="091 Mall", rec_amount, 0)) as zero_nine_one_mall,
+                            SUM(IF(project="Florenza", rec_amount, 0)) as florenza,
+                            SUM(IF(project="MoH", rec_amount, 0)) as moh,
+                            SUM(IF(project="North Hills", rec_amount, 0)) as northHills,
+                            SUM(IF(project="AH Towers", rec_amount, 0)) as ah_tower,
+                            SUM(IF(project="AH City", rec_amount, 0)) as ah_city,
+                            employees.emp_city');
+        $this->db->from('daily_sales');
+        $this->db->join('employees', 'daily_sales.agent_id = employees.emp_code', 'left');
+        $this->db->like('daily_sales.rec_date', date('Y-m'));
+        $this->db->group_by('employees.emp_city');
+        return $this->db->get()->result();
+    }
+    // bcms summary for chart
+    public function bcms_summary_chart(){
+        $this->db->select('teams.team_lead,
+                            SUM(if(project="091 Mall", rec_amount, 0)) as zero_nine_one_mall,
+                            SUM(IF(project="Florenza", rec_amount, 0)) as florenza,
+                            SUM(IF(project="MoH", rec_amount, 0)) as moh,
+                            SUM(IF(project="North Hills", rec_amount, 0)) as northHills,
+                            SUM(IF(project="AH Towers", rec_amount, 0)) as ah_tower,
+                            SUM(IF(project="AH City", rec_amount, 0)) as ah_city');
+        $this->db->from('teams');
+        $this->db->join('daily_sales', 'teams.team_id = daily_sales.team', 'left');
+        $this->db->like('daily_sales.rec_date', date('Y-m'));
+        $this->db->group_by('teams.team_lead');
+        return $this->db->get()->result();
+    }   
+     // locations summary for chart
+    public function location_summary_chart(){
+        $this->db->select('SUM(rec_amount) as rec_amount,
+                            employees.emp_city');
+        $this->db->from('daily_sales');
+        $this->db->join('employees', 'daily_sales.agent_id = employees.emp_code', 'left');
+        $this->db->like('daily_sales.rec_date', date('Y-m'));
+        $this->db->group_by('employees.emp_city');
+        return $this->db->get()->result();
+    }
+
+    // locations summary for chart
+    public function agent_summary_chart($agent_id){
+        $this->db->select('daily_sales.id,
+                    daily_sales.added_by,
+                    MONTHNAME(daily_sales.rec_date) as recDate,
+                    daily_sales.agent_id,
+                    daily_sales.rec_amount,
+                    daily_sales.rebate,
+                    daily_sales.project,
+                    daily_sales.edit_reason,
+                    daily_sales.created_at,
+                    employees.id as emp_id,
+                    employees.emp_code,
+                    employees.emp_name,
+                    employees.emp_city,
+                    employees.office');
+            $this->db->from('daily_sales');
+            $this->db->join('employees', 'daily_sales.agent_id = employees.emp_code', 'left');
+            $this->db->where('employees.id', $agent_id);
+            $this->db->like('daily_sales.rec_date', date('Y'));
+            $this->db->group_by('MONTH(daily_sales.rec_date)');
+            return $this->db->get()->result();
+
+        return $this->db->get()->result();
+    }
+    // agent stats
+    public function agent_stats($city){
+        $this->db->select('SUM(rec_amount) as revenue,
+                            daily_sales.id,
+                            daily_sales.agent_id,
+                            daily_sales.rec_amount,
+                            employees.emp_code,
+                            employees.emp_name,
+                            targets.revenue_target as target');
+        $this->db->from('daily_sales');
+        $this->db->join('employees', 'employees.emp_code = daily_sales.agent_id', 'left');
+        $this->db->join('targets', 'daily_sales.agent_id = targets.emp_id', 'left');
+        $this->db->where(array('target_month' => date('F, Y'), 'employees.emp_city' => $city));
+        $this->db->like('daily_sales.rec_date', date('Y-m'));
+        $this->db->order_by('revenue', 'DESC');
+        $this->db->group_by('daily_sales.agent_id');
+        return $this->db->get()->result();
+    }
+        //get locations
+        public function get_locations(){
+            return $this->db->select('id, name')->get('locations')->result();
+        }
 }

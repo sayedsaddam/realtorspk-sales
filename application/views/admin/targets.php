@@ -36,10 +36,9 @@
                 <div class="form-group pr-3">
                     <select name="city" class="form-control">
                         <option value="" disabled selected>--Select City--</option>
-                        <option value="Islamabad">Islamabad</option>
-                        <option value="Peshawar">Peshawar</option>
-                        <option value="Hangu">Hangu</option>
-                        <option value="Kohat">Kohat</option>
+                        <?php if(!empty($locations)): foreach($locations as $loc): ?>
+									<option value="<?= $loc->name; ?>"><?= $loc->name; ?></option>
+								<?php endforeach; endif; ?>
                     </select>
                 </div>
                 <div class="form-group">
