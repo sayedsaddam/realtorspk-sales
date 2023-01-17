@@ -82,6 +82,7 @@
                         <?php if($session == 2 OR $session == 10): ?>
                             <button data-toggle="modal" data-target="#add_employee" class="btn btn-outline-info btn-sm">Add New</button>
                             <a href="<?= base_url('admin/employees'); ?>" class="btn btn-outline-secondary btn-sm">Detail</a>
+                            <a href="<?= base_url('admin/locations'); ?>" class="btn btn-outline-secondary btn-sm">Locations</a>
                         <?php else: echo 'No further action!'; endif; ?>
                     </div>
                     <div class="card-footer text-right">

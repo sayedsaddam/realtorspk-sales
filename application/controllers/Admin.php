@@ -141,6 +141,17 @@ class Admin extends CI_Controller{
         $data['locations'] = $this->admin_model->get_locations();
         $this->load->view('admin/commons/admin_template', $data);
     }
+    // Employees
+    public function locations($offset = NULL){
+        if(!$this->session->userdata('username')){
+            redirect('admin');
+        }
+        $url = 'admin/locations';
+        $data['title'] = 'Locations | Realtors PK';
+        $data['content'] = 'admin/locations';
+        $data['locations'] = $this->admin_model->get_locations();
+        $this->load->view('admin/commons/admin_template', $data);
+    }
     // inactive employees.
     public function inactive_employees($offset = null){
         $limit = 100;
@@ -527,6 +538,7 @@ class Admin extends CI_Controller{
         $data['title'] = 'Sales Reporting > Daily Sales';
         $data['content'] = 'admin/sales_report';
         $data['teams'] = $this->admin_model->get_sales_teams();
+        $data['locations'] = $this->reporting_model->get_locations();
         $this->load->view('admin/commons/admin_template', $data);
     }
     // Get daily sales report.
@@ -880,5 +892,52 @@ class Admin extends CI_Controller{
 
         $data = $this->admin_model->get_managers($designation_id);
         echo json_encode($data);
+    }
+        // Editing city.
+    public function update_location(){
+        $id = $this->input->post('location_id'); // Get the form input.
+        $updated_by = $this->session->userdata('fullname');
+        $data = array(
+            'name' => $this->input->post('location_name'),
+            'total_employees' => $this->input->post('total_employees'),
+
+        );
+        if($this->admin_model->update_location($id, $data)){
+            $this->session->set_flashdata('success', '<strong>Success! </strong>Updating a location was successful.');
+            redirect('admin/locations');
+        }else{
+            $this->session->set_flashdata('failed', "<strong>Failed! </strong>Something went wrong, but don't fret. Let's give it another shot!");
+            redirect('admin/locations');
+        }
+    }
+    public function delete_location(){
+        if(!$this->session->userdata('username')){
+            redirect('admin');
+        }
+        $id = $this->input->post('location_id');
+        if($this->admin_model->delete_location($id)){
+            $this->session->set_flashdata('success', '<strong>Success! </strong>Deleting a location was successful.');
+            // redirect($_SERVER['HTTP_REFERER']);
+            echo json_encode('record deleted');
+        }else{
+            $this->session->set_flashdata('failed', '<strong>Failed! </strong>Deleting a location was failed.Please try again later');
+            // redirect($_SERVER['HTTP_REFERER']);
+            echo json_encode('No record is deleted');
+        }
+    }
+    // Add new employee.
+    public function add_location(){
+        $data = array(
+            'name' => $this->input->post('location_name'),
+            'total_employees' => $this->input->post('total_employees'),
+            'created_at' => date('Y-m-d h:i:sa')
+        );
+        if($this->admin_model->add_location($data)){
+            $this->session->set_flashdata("success", "<strong>Success! </strong>Location has been added successfully.");
+            redirect('admin/locations');
+        }else{
+            $this->session->set_flashdata("failed", "<strong>Failed! </strong>Something went wrong, but don't fret. Let's give it another shot.");
+            redirect('admin/locations');
+        }
     }
 }

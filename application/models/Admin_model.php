@@ -1018,7 +1018,30 @@ class Admin_model extends CI_Model{
     }
     //get locations
     public function get_locations(){
-        return $this->db->select('id, name')->get('locations')->result();
-      }
+        return $this->db->select('id, name,total_employees')->get('locations')->result();
+    }
+    // Editing / updating a sales record.
+    public function update_location($id, $data){
+        $this->db->where('id', $id); // The ID (primary key) column in the daily_sales table.
+        $this->db->update('locations', $data);
+        return true;
+    }
+    //deleting designation
+    public function delete_location($id){
+        $this->db->from('locations');
+        $this->db->where('id', $id);
+        $this->db->delete('locations');
+        return true;
+    }
+       //deleting designation
+       public function add_location($data){
+        $this->db->insert('locations', $data);
+        if($this->db->affected_rows() > 0){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
 
 }
