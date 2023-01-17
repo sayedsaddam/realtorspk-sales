@@ -35,16 +35,19 @@
                         <th>Serial #</th>
                         <th>Name</th>
                         <th>Total Employees</th>
+                        <th>Status</th>
                         <th>Action</th>
                     </tr>
                 </thead>
                 <?php if(!empty($locations)): ?>
                     <tbody>
                         <?php  $serial=1;foreach($locations as $loc): ?>
-                            <tr id="<?= $loc->id ?>">
+                            <tr id="<?= $loc->id ?>" <?= $loc->status == 0 ?  'class="table-danger"': ''  ?>>
                                 <td><?= $serial++; ?></td>
                                 <td><?= $loc->name; ?></td>
-                                <td><?= $loc->total_employees ?> </td>
+                                <td><?= $loc->total_employees; ?> </td>
+                               
+                                <td><?php if($loc->status == 1){ echo "<span class='badge badge-success'>Active</span>"; }else{ echo '<span class="badge badge-danger">Inactive</span>'; } ?></td>
                                 <td>
                                     <a data-toggle="modal" data-target="#edit_location<?= $loc->id; ?>" href="javascript:void(0)" data-id="1" class="edit_team btn btn-primary btn-sm" >Edit</a>
                                     <!-- Modal starts -->
@@ -82,7 +85,9 @@
                                         </div>
                                     </div>
                                     <!-- Model ends -->
-                                    <a href="javascript:void(0)"  class="location-delete btn  badge-danger btn-sm" data-id="<?= $loc->id; ?>">Delete</a>
+                                    <a href="<?= base_url('admin/update_location_status/'.$loc->id); ?>" class="btn btn-primary btn-sm" title="Change the status whether resigned or terminated..." onclick="javascript:return confirm('Are you sure to change status ? Click OK to continue.');">
+                                <?= $loc->status == 1 ? 'Disable' : 'Enable' ?>
+                                </a>
                                 </td>
                                    
                             </tr>
@@ -142,33 +147,31 @@
 </div>
 <script>
     $('.location-delete').click(function(e){  
-    e.preventDefault();
-    var location_id = $(this).data('id');
-    Swal.fire({
-        title: 'Are you sure to delete this location?',
-        showCancelButton: true,
-        confirmButtonText: 'Yes',
-        }).then((result) => {
-        /* Read more about isConfirmed, isDenied below */
-        if (result.isConfirmed) {
-            $.ajax({
-            url: '<?= base_url('admin/delete_location/'); ?>' + location_id,
-            method: 'POST',
-            dataType: 'JSON',
-            data: {location_id: location_id},
-            success: function(response){
-                console.log(response);
-                // alert(response);
-                Swal.fire('Location Deleted!', '', 'success');
-                $('tr#'+location_id).remove();
+        e.preventDefault();
+        var location_id = $(this).data('id');
+        Swal.fire({
+            title: 'Are you sure to delete this location?',
+            showCancelButton: true,
+            confirmButtonText: 'Yes',
+            }).then((result) => {
+            /* Read more about isConfirmed, isDenied below */
+            if (result.isConfirmed) {
+                $.ajax({
+                url: '<?= base_url('admin/delete_location/'); ?>' + location_id,
+                method: 'POST',
+                dataType: 'JSON',
+                data: {location_id: location_id},
+                success: function(response){
+                    console.log(response);
+                    // alert(response);
+                    Swal.fire('Location Deleted!', '', 'success');
+                    $('tr#'+location_id).remove();
+                }
+                });
+            } else {
+                Swal.fire('Deletion cancelled');
             }
-            });
-        } else {
-            Swal.fire('Deletion cancelled');
-        }
+        });
     });
-
-
-  });
     
 </script>

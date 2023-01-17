@@ -149,7 +149,7 @@ class Admin extends CI_Controller{
         $url = 'admin/locations';
         $data['title'] = 'Locations | Realtors PK';
         $data['content'] = 'admin/locations';
-        $data['locations'] = $this->admin_model->get_locations();
+        $data['locations'] = $this->admin_model-> get_all_locations();
         $this->load->view('admin/commons/admin_template', $data);
     }
     // inactive employees.
@@ -938,6 +938,26 @@ class Admin extends CI_Controller{
         }else{
             $this->session->set_flashdata("failed", "<strong>Failed! </strong>Something went wrong, but don't fret. Let's give it another shot.");
             redirect('admin/locations');
+        }
+    }
+    // Change employee status whether s/he resigned.
+    public function update_location_status($id){
+        $user =  $this->db->get_where('locations', array('id' => $id))->row();
+        $status = '';
+        if($user->status == 1){
+            $status .= 0;
+        }else{
+            $status .= 1;
+        }
+        $data = array(
+            'status' => $status
+        );
+        if($this->admin_model->change_location_status($id, $data)){
+            $this->session->set_flashdata('success', '<strong>Success! </strong>Location status has been changed successfully.');
+            redirect($_SERVER['HTTP_REFERER']);
+        }else{
+            $this->session->set_flashdata("failed", "<strong>Failed! </strong>Something went wrong, but don't fret. Let's give it another shot.");
+            redirect($_SERVER['HTTP_REFERER']);
         }
     }
 }

@@ -1018,7 +1018,15 @@ class Admin_model extends CI_Model{
     }
     //get locations
     public function get_locations(){
-        return $this->db->select('id, name,total_employees')->get('locations')->result();
+        $this->db->select('id, name,total_employees,status');
+        $this->db->from('locations');
+        $this->db->where('status','1');
+        return $this->db->get()->result();
+    }
+    //get locations
+    public function get_all_locations(){
+        return $this->db->select('id, name,total_employees,status')->get('locations')
+        ->result();
     }
     // Editing / updating a sales record.
     public function update_location($id, $data){
@@ -1033,15 +1041,21 @@ class Admin_model extends CI_Model{
         $this->db->delete('locations');
         return true;
     }
-       //deleting designation
-       public function add_location($data){
-        $this->db->insert('locations', $data);
-        if($this->db->affected_rows() > 0){
-            return true;
-        }
-        else{
-            return false;
-        }
+    //deleting designation
+    public function add_location($data){
+    $this->db->insert('locations', $data);
+    if($this->db->affected_rows() > 0){
+        return true;
+    }
+    else{
+        return false;
+    }
+}
+    // Change employee status
+    public function change_location_status($id, $data){
+        $this->db->where('id', $id);
+        $this->db->update('locations', $data);
+        return true;
     }
 
 }
