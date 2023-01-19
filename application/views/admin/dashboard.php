@@ -509,7 +509,7 @@
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <div class="col-xl-lg-6 col-md-6 col-sm-6">
+                    <div class="col-xl-lg-6 col-md-3 col-sm-3">
                         <select name="city" id="city" class="form-control">
                             <option value="">-- Select City --</option>
                             <?php if(!empty($locations)): foreach($locations as $loc): ?>
@@ -526,7 +526,7 @@
                 </div><hr>
                 <div class="row">
                     <div class="col-xl-lg-12 col-md-12 table-responsive">
-                        <form action="<?php echo base_url('admin/save_targets'); ?>" method="post">
+                        <form id="targets_form" action="<?php echo base_url('admin/save_targets'); ?>" method="post">
                             <table class="table table-bordered table-sm">
                                 <thead class="table-dark">
                                 <tr>
@@ -824,10 +824,7 @@
 </div>
 <script>
     $(document).ready(function(){
-        // Check all
-        $("#checkAll").click(function(){
-            $('input:checkbox').not(this).prop('checked', this.checked);
-        });
+  
         // Target month
         $("#month").change(function () {
             var target_month = $(this).val();
@@ -846,17 +843,47 @@
                     if(data){
                         $('#sales_team').html('');
                         $.each(data, function(index, item){
-                            $('#sales_team').append(`<tr>
-                            <td><input type="checkbox" id="emp_id" name="emp_id[]" value="${item.emp_code}:${item.emp_team}"></td>
+                            $('#sales_team').append(
+                            `<tr>
+                            <td><input class="${item.emp_code}" onchange="checkbox_target(this); return false;;
+                           
+                           " type="checkbox" id="emp_id" name="emp_id[]" value="${item.emp_code}:${item.emp_team}"></td>
+                            
                             <td>${item.emp_name}</td>
+
                             <td><input type="text" class="form-control assign_month" value="${item.revenue_target}"></td>
-                            <td><input type="text" name="revenue[]" class="form-control revenue_month" placeholder="Revenue Target..."></td>
+
+                            <td><input type="text" name="revenue[]" class="form-control revenue_month" value="${item.target_amount}" disabled></td>
+
                             <td><select name="month[]" class="form-control assignMonth" required><option value="<?= date('F'); ?>"><?= date('F'); ?></option></select></td></tr>`);
                             $('#btn-targets').removeAttr('disabled');
+                           
                         });
+                     
                     }
+                    
                 }
+             
             });
+      
+
+        });
+     
+
+    $("#checkAll").click(function(){
+         
+            $('input:checkbox').not(this).prop('checked', this.checked);
+            var inputs = $('input.revenue_month');
+            if(this.checked){
+                for(var i = 0; i < inputs.length; i++){
+                    $(inputs[i]).removeAttr('disabled');
+                }
+            }
+            else{
+                for(var i = 0; i < inputs.length; i++){
+                    $(inputs[i]).attr("disabled", true);
+                }
+            }
         });
     });
     $(document).ready(function(){
@@ -915,5 +942,17 @@
                     });
                 }
             });
+
         });
+
+    function checkbox_target(el){
+                        var check_class = '.'+el.className;
+                        if($(check_class).closest('tr').find('td > input.revenue_month').prop('disabled')){
+                            $(check_class).closest('tr').find('td > input.revenue_month').removeAttr('disabled');
+                        }
+                        else
+                        {
+                            $(check_class).closest('tr').find('td > input.revenue_month').attr('disabled', true);
+                        }
+        }
 </script>

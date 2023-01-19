@@ -416,13 +416,14 @@ class Admin_model extends CI_Model{
     }
     // Get sales agents to assign monthly revenue targets.
     public function get_sales_agents($city){
-        $this->db->select('employees.id as emp_id, employees.emp_code ,employees.emp_team , employees.emp_name, targets.id as target_id, targets.target_month, targets.emp_id, targets.revenue_target, targets.created_at');
+        $this->db->select('employees.emp_code, employees.emp_name, employees.emp_team, employees.designation,designations.id as designation_id,designations.target_amount,designations.designation_name,targets.id as target_id, targets.target_month, targets.emp_id, targets.revenue_target, targets.created_at');
         $this->db->from('employees');
+        $this->db->join('designations', 'employees.designation = designations.id');
         $this->db->join('targets', 'employees.emp_code = targets.emp_id', 'left');
-        // $this->db->group_by('targets.emp_id');
         $this->db->where(array('employees.emp_city' => $city, 'employees.emp_status' => 1)); // , 'target_month <=' => date('F, Y', strtotime('first day of -1 month'))
         $this->db->order_by('employees.emp_name', 'ASC');
         $this->db->group_by('employees.emp_code'); // Added by group_by statement to get all records from employees table.
+        
         return $this->db->get()->result();
     }
     // Check whether targets assigned in the current month.
@@ -432,21 +433,12 @@ class Admin_model extends CI_Model{
         $this->db->where('target_month', date('F, Y'));
         return $this->db->get()->result();
     }
-    // Assign targets previous code backup//.
-    // public function assign_targets($data){
-    //     $this->db->insert_batch('targets', $data);
-    //     if($this->db->affected_rows() > 0){
-    //         return true;
-    //     }else{
-    //         return false;
-    //     }
-    // }
+
     // Assign targets .
     public function assign_targets($data){
         $this->db->insert('targets', $data);
-        $insert_id = $this->db->insert_id(); //last insert id from tbl
         if($this->db->affected_rows() > 0){
-            return $insert_id;
+            return true;
         }else{
             return false;
         }
@@ -1007,7 +999,7 @@ class Admin_model extends CI_Model{
     }
        // get designations
     public function get_designations(){
-        return $this->db->select('id, designation_name')->get('designations')->result();
+        return $this->db->select('id, designation_name,target_amount')->get('designations')->result();
     }
     public function get_managers($designation_id){
         $this->db->select('id, emp_code, emp_name');
