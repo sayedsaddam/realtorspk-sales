@@ -91,7 +91,7 @@
                 </div>
                 <div class="card">
                     <div class="card-body text-center">
-                        <?php if($session != 2): // Access level - role based. ?>
+                        <?php if($session == 10 OR $session == 5): // Access level - role based. ?>
                         <h5 class="font-weight-light">Stats - Daily Basis</h5>
                         <div class="row mb-1">
                             <div class="col-xl-lg-6 col-md-6 text-left">
@@ -134,7 +134,7 @@
                 </div>
                 <div class="card">
                     <div class="card-body text-center">
-                        <?php if($session !=2 ): //not an HR ?>
+                        <?php if($session == 10 OR $session == 5): ?>
                         <h5 class="font-weight-light"><?= 'Stats - '.date('F, Y'); ?></h5>
                         <div class="row">
                             <div class="col-xl-lg-5 col-md-5 text-left">
@@ -180,7 +180,7 @@
             </div>
         </div>
     </div>
-    <?php if($session != 2): ?>
+    <?php if($session == 5 || $session == 10): ?>
     <!-- Grid row -->
     <div class="row mb-4">
         <div class="col-xl-lg-12 col-md-12">

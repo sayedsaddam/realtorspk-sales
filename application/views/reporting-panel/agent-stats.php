@@ -10,7 +10,7 @@
                 </p> 
             </div>
             <div class="col-md-2">
-               <?php if($session !=6 ): ?>
+               <?php if($session != 6): ?>
                   <a href="<?= base_url('admin/dashboard'); ?>" class="btn btn-outline-light btn-block btn-lg">Dashboard</a>
                <?php endif; ?>
                <a href="javascript:history.go(-1)" class="btn btn-light btn-block btn-lg">&laquo; Back</a>
