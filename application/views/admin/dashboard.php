@@ -91,7 +91,7 @@
                 </div>
                 <div class="card">
                     <div class="card-body text-center">
-                        <?php if($session == 10 OR $session == 5): // Access level - role based. ?>
+                        <?php if($session != 2): // Access level - role based. ?>
                         <h5 class="font-weight-light">Stats - Daily Basis</h5>
                         <div class="row mb-1">
                             <div class="col-xl-lg-6 col-md-6 text-left">
@@ -134,7 +134,7 @@
                 </div>
                 <div class="card">
                     <div class="card-body text-center">
-                        <?php if($session == 10 OR $session == 5): ?>
+                        <?php if($session !=2 ): //not an HR ?>
                         <h5 class="font-weight-light"><?= 'Stats - '.date('F, Y'); ?></h5>
                         <div class="row">
                             <div class="col-xl-lg-5 col-md-5 text-left">
@@ -180,7 +180,7 @@
             </div>
         </div>
     </div>
-    <?php if($session == 5 || $session == 10): ?>
+    <?php if($session != 2): ?>
     <!-- Grid row -->
     <div class="row mb-4">
         <div class="col-xl-lg-12 col-md-12">
@@ -406,7 +406,7 @@
                             <label for="designation">Designation</label>
                             <select name="designation" class="custom-select mb-2">
                                 <option value="" disabled selected>-- Select One --</option>
-                                <?php if(!empty($designations)): foreach($designations as $des):  ?>
+                                <?php if(!empty($designations)): foreach($designations as $des): ?>
                                     <option value="<?= $des->id; ?>"><?= $des->designation_name; ?></option>
                                 <?php endforeach; endif; ?>
                             </select>
@@ -470,9 +470,9 @@
                             <label for="report_to">Report To</label>
                             <select id="reportsTo" class="custom-select mb-4">
                                 <option value="" disabled selected>-- Select One --</option>
-                                <?php if(!empty($designations)): foreach($designations as $des):  if($des->id != 1): ?>
+                                <?php if(!empty($designations)): foreach($designations as $des):  ?>
                                     <option value="<?= $des->id; ?>"><?= $des->designation_name; ?></option>
-                                <?php  endif; endforeach; endif; ?>
+                                <?php  endforeach; endif; ?>
                             </select>
                         </div>
                         <div class="col-md-6">
@@ -511,7 +511,7 @@
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <div class="col-xl-lg-6 col-md-6 col-sm-6">
+                    <div class="col-xl-lg-6 col-md-3 col-sm-3">
                         <select name="city" id="city" class="form-control">
                             <option value="">-- Select City --</option>
                             <?php if(!empty($locations)): foreach($locations as $loc): ?>

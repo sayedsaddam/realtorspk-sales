@@ -1,3 +1,5 @@
+<?php $session = $this->session->userdata('department'); ?>
+
 <div class="jumbotron jumbotron-fluid text-white d-print-none" style="background-color: purple;">
     <div class="container">
         <div class="row">
@@ -8,7 +10,7 @@
                 </p> 
             </div>
             <div class="col-md-2">
-               <?php if($this->session->userdata('username') == 'realtors'): ?>
+               <?php if($session !=6 ): ?>
                   <a href="<?= base_url('admin/dashboard'); ?>" class="btn btn-outline-light btn-block btn-lg">Dashboard</a>
                <?php endif; ?>
                <a href="javascript:history.go(-1)" class="btn btn-light btn-block btn-lg">&laquo; Back</a>
@@ -38,6 +40,7 @@
                            <th>Name</th>
                            <th>TGT</th>
                            <th>Rev</th>
+                           <th class="d-none d-print-block">%age</th>
                         </tr>
                      </thead>
                      <tbody>
@@ -47,6 +50,7 @@
                               <td><?= $sale->emp_name; ?></td>
                               <td><?= number_format($sale->target/1000000, 2); ?></td>
                               <td><?= number_format($sale->revenue/1000000, 3); ?></td>
+                              <td class="d-none d-print-block"><?= number_format($sale->revenue/$sale->target*100, 2); ?>%</td>
                               <tr class="d-print-none">
                                  <td colspan="3">
                                     <div class="progress">
@@ -69,6 +73,7 @@
                            <th>Name</th>
                            <th>Target</th>
                            <th>Revenue</th>
+                           <th class="d-none d-print-block">%age</th>
                         </tr>
                      </thead>
                      <tbody>
@@ -78,6 +83,7 @@
                            <td><?= $sale->emp_name; ?></td>
                            <td><?= number_format($sale->target/1000000, 2); ?></td>
                            <td><?= number_format($sale->revenue/1000000, 3); ?></td>
+                           <td class="d-none d-print-block"><?= number_format($sale->revenue/$sale->target*100, 2); ?>%</td>
                            <tr class="d-print-none">
                               <td colspan="3">
                                  <div class="progress">
@@ -100,6 +106,7 @@
                            <th>Name</th>
                            <th>Target</th>
                            <th>Revenue</th>
+                           <th class="d-none d-print-block">%age</th>
                         </tr>
                      </thead>
                      <tbody>
@@ -109,6 +116,7 @@
                               <td><?= $sale->emp_name; ?></td>
                               <td><?= number_format($sale->target/1000000, 2); ?></td>
                               <td><?= number_format($sale->revenue/1000000, 3); ?></td>
+                              <td class="d-none d-print-block"><?= number_format($sale->revenue/$sale->target*100, 2); ?>%</td>
                               <tr class="d-print-none">
                                  <td colspan="3">
                                     <div class="progress">
