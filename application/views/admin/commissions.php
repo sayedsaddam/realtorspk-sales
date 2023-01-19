@@ -68,6 +68,8 @@
 				$total_amount_moh_bcm2=0;
 				$total_amount_ahc_bcm2=0;
 				$total_targets_bcm2 = 0;
+                $total_amount_bcm2 = 0;
+                $total_amount_bcm3 = 0;
 				foreach($daily_sales as $sale){
 					if($sale->emp_team == 2 || $sale->emp_team == 6 || $sale->emp_team == 7 || $sale->emp_team == 8 || $sale->emp_team == 10){
 						$total_targets_bcm2 += $sale->revenue_target;
@@ -158,7 +160,7 @@
                                 </td>
                             </tr>
 							<?php $bcm1_commission = ($total_amount_bcm1/$total_targets_bcm1*100); ?>
-							<?php $bcm2_commission = ($total_amount_bcm2/$total_targets_bcm2*100); ?>
+							<?php $bcm2_commission = $total_amount_bcm2 > 0 ? ($total_amount_bcm2/$total_targets_bcm2*100):0; ?>
 							<?php $bcm3_commission = ($total_amount_bcm3/$total_targets_bcm3*100); ?>
                             <tr>
                                 <td>

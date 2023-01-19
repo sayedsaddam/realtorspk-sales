@@ -180,6 +180,7 @@
             </div>
         </div>
     </div>
+    <?php if($session == 5 || $session == 10): ?>
     <!-- Grid row -->
     <div class="row mb-4">
         <div class="col-xl-lg-12 col-md-12">
@@ -366,6 +367,7 @@
             </div>
         </div>
     </div>
+    <?php endif ?>
 </div>
 <!-- Modal for adding new employee starts -->
 <div class="modal fade" id="add_employee" tabindex="-1" role="dialog" aria-labelledby="payment_statusLabel" aria-hidden="true">
@@ -954,5 +956,5 @@
                         {
                             $(check_class).closest('tr').find('td > input.revenue_month').attr('disabled', true);
                         }
-        }
+    }
 </script>
