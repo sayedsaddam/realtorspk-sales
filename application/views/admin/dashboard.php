@@ -472,7 +472,7 @@
                                 <option value="" disabled selected>-- Select One --</option>
                                 <?php if(!empty($designations)): foreach($designations as $des):if($des->id != 1):   ?>
                                     <option value="<?= $des->id; ?>"><?= $des->designation_name; ?></option>
-                                <?php  endforeach; endif; ?>
+                                <?php endif; endforeach; endif; ?>
                             </select>
                         </div>
                         <div class="col-md-6">
