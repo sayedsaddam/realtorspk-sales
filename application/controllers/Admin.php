@@ -849,23 +849,19 @@ class Admin extends CI_Controller{
                     'revenue_target' => $target[$j],
                     'added_by' => $this->session->userdata('id')
                     );
-                    $check_existing = $this->db->get_where('targets', array('emp_id' => $empId[$j], 'target_month' => $split[0].', '.date('Y')))->result();// In realtors code, there was 'year'=>$split[1]
+                    $check_existing = $this->db->get_where('targets', array('emp_id' => $empId[$j], 'target_month' => $split[0].', '.date('Y')))->result();
                     if($check_existing == TRUE){
-                        $this->session->set_flashdata('failed', '<strong>Failed! </strong>Targets are already assigned for this month.');
+                        $this->session->set_flashdata('failed', '<strong>Failed! </strong>Targets are assigned already for this month.');
                         redirect($_SERVER['HTTP_REFERER']);
                         return false;
                     }
                     else{
-                        $target_id = $this->admin_model->assign_targets($data); //get last inserted id for targets to store in daily_sales tables.
-                        //auto assigning sales
-                        // echo $target_id;exit;
+                        $this->admin_model->assign_targets($data);
                         $projects = array('091 Mall', 'Florenza', 'MoH', 'North Hills', 'AH Tower', 'AH City');
                         $split = explode(':', $empId[$j]);
-                            // print_r('split val'.$split[1]);exit;
                         $data_sales[$j] = array(
                                 'agent_id' => $split[0], // first part > Employee ID
                                 'team' => $split[1], // second part > Team ID
-                                // 'target_id' => $target_id,
                                 'project' => $projects[rand(0, 5)],
                                 'rec_date' => date('Y-m-d H:i:s'),
                                 'rec_amount' => 0,
