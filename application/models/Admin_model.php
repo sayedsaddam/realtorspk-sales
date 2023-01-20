@@ -1049,5 +1049,38 @@ class Admin_model extends CI_Model{
         $this->db->update('locations', $data);
         return true;
     }
+    // employee detail > get employee by ID
+    public function employee_detail($id){
+        $this->db->select('employees.id,
+                            employees.added_by,
+                            employees.emp_code,
+                            employees.emp_name,
+                            employees.manager_id,
+                            employees.gender,
+                            employees.office,
+                            employees.emp_number,
+                            employees.emp_city,
+                            employees.emp_department,
+                            employees.emp_team,
+                            employees.doj,
+                            departments.dept_id,
+                            departments.dept_name,
+                            teams.team_id,
+                            teams.team_name,
+                            designations.id as des_id,
+                            designations.designation_name');
+        $this->db->from('employees');
+        $this->db->join('departments', 'employees.emp_department = departments.dept_id', 'left');
+        $this->db->join('teams', 'employees.emp_team = teams.team_id', 'left');
+        $this->db->join('designations', 'employees.designation = designations.id', 'left');
+        $this->db->where('employees.id', $id);
+        return $this->db->get()->row();
+    }
+    // update employee
+    public function update_employee($id, $data){
+        $this->db->where('id', $id);
+        $this->db->update('employees', $data);
+        return true;
+    }
 
 }
