@@ -148,7 +148,7 @@
                     <div class="row">
                         <div class="col-md-6">
                             <label for="emp_code">Employee Code</label>
-                            <input type="number" name="emp_code" class="form-control emp_code mb-2" disabled>
+                            <input type="number" name="emp_code" class="form-control emp_code mb-2" readonly>
                         </div>
                         <div class="col-md-6">
                             <label for="name">Employee Name</label>
@@ -273,10 +273,7 @@
         });
     }
     $(document).ready(function(){
-        $('#edit_employee_form').submit(function() {
-            $('.emp_code').removeAttr('disabled');
-            return true; 
-        });
+ 
         $('.empId').click(function(){
             var empId = $(this).data('id');
             $.ajax({
