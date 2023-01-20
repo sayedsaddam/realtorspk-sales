@@ -472,7 +472,7 @@
                                 <option value="" disabled selected>-- Select One --</option>
                                 <?php if(!empty($designations)): foreach($designations as $des):if($des->id != 1):   ?>
                                     <option value="<?= $des->id; ?>"><?= $des->designation_name; ?></option>
-                                <?php  endforeach; endif; ?>
+                                <?php endif; endforeach; endif; ?>
                             </select>
                         </div>
                         <div class="col-md-6">
@@ -511,7 +511,7 @@
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <div class="col-xl-lg-6 col-md-3 col-sm-3">
+                    <div class="col-xl-lg-6 col-md-6 col-sm-6">
                         <select name="city" id="city" class="form-control">
                             <option value="">-- Select City --</option>
                             <?php if(!empty($locations)): foreach($locations as $loc): ?>
