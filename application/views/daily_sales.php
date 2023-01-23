@@ -22,14 +22,14 @@
                     <?php if($session == 'realtors' || $session == 'yasir.ali' || $session == 'akbar.arbab' || $session == 'shahana.farah' || $session == 'nasir.jalil'){ echo "Leader Board - Realtors PK <small style='font-size: 15px;'>(Welcome back, ".$this->session->userdata('fullname').")</small> <small style='font-size: 15px;'>Ending in <span id='endingIn'></span></small>"; }else{ echo "Login"; } ?>
                 </h2>
             </div>
-            <div class="col-md-5 col-sm-12">
-                <?php if($session): ?>
-                    <a target="_blank" href="https://ahgroup-pk.com/home/sales_competition" class="btn btn-light border">Sales Competiton</a>
-					<a href="#teamsRevenue" class="btn btn-outline-primary">Teams &rightarrow;</a>
-					<a href="#teamsRevenue" class="btn btn-outline-primary">BCMs &rightarrow;</a>
-					<a href="#annualReport" class="btn btn-outline-primary">Annual Sales</a>
-                    <a class="btn btn-danger" href="<?= base_url('home/signout'); ?>">Sign Out</a>
-                <?php endif; ?>
+            <div class="col-md-5 col-sm-12 text-right">
+					<?php if($session): ?>
+						<a href="<?= base_url('reporting_panel/agent_stats/Peshawar'); ?>" class="btn btn-outline-info">Agent Stats</a>
+						<a href="#teamsRevenue" class="btn btn-outline-primary">Teams &rightarrow;</a>
+						<a href="#teamsRevenue" class="btn btn-outline-primary">BCMs &rightarrow;</a>
+						<a href="#annualReport" class="btn btn-outline-primary">Annual Sales</a>
+						<a class="btn btn-danger" href="<?= base_url('home/signout'); ?>">Sign Out</a>
+					<?php endif; ?>
             </div>
         </div>
     </div>
@@ -487,7 +487,7 @@
 											</tr>
 											<tr>
 												<td>BCM-III</td>
-												<td>Aimal Khattak</td>
+												<td>Isdaq Ahmad</td>
 												<td>Realtors, Ring road, Peshawar</td>
 											</tr>
 										</tbody>
