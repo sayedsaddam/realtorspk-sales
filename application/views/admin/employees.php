@@ -69,7 +69,7 @@
                         <?php $serial = $this->uri->segment(3) + 1; foreach($employees as $emp): ?>
                             <tr <?php if($emp->emp_status == 0){ echo 'class="table-danger"'; } ?>>
                                 <td><?= $serial++; ?></td>
-                                <td><?= $emp->emp_name; ?></td>
+                                <td><a class="empId" href="javascript:void(0)" data-id="<?= $emp->id; ?>"><?= $emp->emp_name; ?></a></td>
                                 <td><?= $emp->emp_code; ?></td>
                                 <td><?= $emp->emp_number; ?></td>
                                 <td><?= $emp->dept_name; ?></td>
@@ -133,6 +133,129 @@
         </div>
     </div>
 </div>
+<!-- Modal for editing employee starts -->
+<div class="modal fade" id="edit_employee" tabindex="-1" role="dialog" aria-labelledby="payment_statusLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="payment_statusLabel">Edit Employee Information</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="edit_employee_form" action="<?= base_url('admin/update_employee'); ?>" method="post">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="emp_code">Employee Code</label>
+                            <input type="number" name="emp_code" class="form-control emp_code mb-2" readonly>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="name">Employee Name</label>
+                            <input type="text" name="emp_name" class="form-control emp_name mb-2" placeholder="Employee name..." required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="designation">Designation</label>
+                            <select name="designation" class="custom-select designation mb-2">
+                                <option value="" disabled selected>-- Select One --</option>
+                                <?php if(!empty($designations)): foreach($designations as $des): ?>
+                                    <option value="<?= $des->id; ?>"><?= $des->designation_name; ?></option>
+                                <?php endforeach; endif; ?>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="gender">Gender</label>
+                            <select name="gender" class="custom-select gender mb-2">
+                                <option value="" disabled selected>-- Select One --</option>
+                                <option value="m">Male</option>
+                                <option value="f">Female</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="office">Office</label>
+                            <select name="office" class="custom-select office mb-2">
+                                <option value="" disabled selected>-- Select One --</option>
+                                <option value="Head Office">Head Office</option>
+                                <option value="Regional Office">Regional Office</option>
+                                <option value="Site Office">Site Office</option>
+                                <option value="Branch Office">Branch Office</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="phone">Phone</label>
+                            <input type="text" name="emp_phone" class="form-control phone mb-2" placeholder="Mobile no. i.e. 03439343456" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="department">Department</label>
+                            <select name="emp_department" class="custom-select emp_department mb-2" required>
+                                <option value="" disabled selected>-- Select One --</option>
+                                <?php if(!empty($departments)): foreach($departments as $dept): ?>
+                                    <option value="<?= $dept->dept_id; ?>"><?= $dept->dept_name; ?></option>
+                                <?php endforeach; endif; ?>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="city">City</label>
+                            <select name="emp_city" class="custom-select emp_city mb-2" required>
+                                <option value="" disabled selected>-- Select One --</option>
+                                <option value="Islamabad">Islamabad</option>
+                                <option value="Peshawar">Peshawar</option>
+                                <option value="Hangu">Hangu</option>
+                                <option value="Kohat">Kohat</option>
+                                <option value="Mardan">Mardan</option>
+                                <option value="D.I Khan">D.I Khan</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="doj">Date of Joining</label>
+                            <input type="date" name="doj" class="form-control doj mb-2" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="team">Team</label>
+                            <select name="emp_team" class="custom-select emp_team mb-4">
+                                <option value="" disabled selected>-- Select One --</option>
+                                <?php if(!empty($teams)): foreach($teams as $team): ?>
+                                    <option value="<?= $team->team_id; ?>"><?= $team->team_name; ?></option>
+                                <?php endforeach; endif; ?>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="report_to">Report To</label>
+                            <select id="reportsTo" class="custom-select reportsTo mb-4">
+                                <option value="" disabled selected>-- Select One --</option>
+                                <?php if(!empty($designations)): foreach($designations as $des): if($des->id != 1): ?>
+                                    <option value="<?= $des->id; ?>"><?= $des->designation_name; ?></option>
+                                <?php endif; endforeach; endif; ?>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="manager_id">Manager Name</label>
+                            <select name="manager_id" id="manager_id" class="custom-select manager_id mb-4">
+                                <option value="" disabled selected>-- Select One --</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Save Record</button>
+                    <input type="reset" class="btn btn-warning" value="Clear">
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal for adding new employee ends -->
 <script>
     function assign_team(selectObject, emp_id) {
         var team_id = selectObject.value; // value = team_id
@@ -149,4 +272,49 @@
             }
         });
     }
+    $(document).ready(function(){
+ 
+        $('.empId').click(function(){
+            var empId = $(this).data('id');
+            $.ajax({
+                url: '<?= base_url(); ?>admin/employee_detail/' + empId,
+                method: 'post',
+                dataType: 'json',
+                data: {empId: empId},
+                success: function(res){
+                    console.log(res);
+                    $('.emp_code').val(empId);
+                    $('.emp_name').val(res.emp_name);
+                    $('.designation').val(res.des_id);
+                    $('.gender').val(res.gender);
+                    $('.office').val(res.office);
+                    $('.phone').val(res.emp_number);
+                    $('.emp_department').val(res.emp_department);
+                    $('.emp_city').val(res.emp_city);
+                    $('.doj').val(res.doj);
+                    $('.emp_team').val(res.emp_team);
+                    $('.manager_id').html('<option value="'+ res.manager_id +'" selected="selected">'+ res.manager_id +'</option>');
+                    $('#edit_employee').modal('show');
+                }
+            });
+        });
+        // get all employees against a designation
+        $('#reportsTo').change(function(){
+            var managers = $(this).val();
+            $.ajax({
+                url: '<?= base_url('admin/get_managers/') ?>' + managers,
+                method: 'POST',
+                dataType: 'JSON',
+                data: {managers: managers},
+                success: function(res){
+                    console.log(res);
+                    $('#manager_id').find('option').not(':first').remove();
+                    // add options
+                    $.each(res, function(index, data){
+                        $('#manager_id').append('<option value="'+data['id']+'">'+data['emp_name']+'</option>');
+                    });
+                }
+            });
+        });
+    });
 </script>

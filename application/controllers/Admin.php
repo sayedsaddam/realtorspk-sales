@@ -139,6 +139,8 @@ class Admin extends CI_Controller{
         $data['employees'] = $this->admin_model->get_employees($limit, $offset);
         $data['teams'] = $this->admin_model->teams_for_selectbox();
         $data['locations'] = $this->admin_model->get_locations();
+        $data['departments'] = $this->admin_model->get_departments();
+        $data['designations'] = $this->admin_model->get_designations();
         $this->load->view('admin/commons/admin_template', $data);
     }
     // Employees
@@ -956,4 +958,34 @@ class Admin extends CI_Controller{
             redirect($_SERVER['HTTP_REFERER']);
         }
     }
+    // edit employee > get emp detail by ID
+    public function employee_detail($id){
+        $detail = $this->admin_model->employee_detail($id);
+        echo json_encode($detail);
+    }
+      // update employee
+      public function update_employee(){
+        $id = $this->input->post('emp_code');
+        $data = array(
+            'emp_code' => $this->input->post('emp_code'),
+            'emp_name' => $this->input->post('emp_name'),
+            'designation' => $this->input->post('designation'),
+            'manager_id' => $this->input->post('manager_id'),
+            'gender' => $this->input->post('gender'),
+            'office' => $this->input->post('office'),
+            'doj' => $this->input->post('doj'),
+            'emp_number' => $this->input->post('emp_phone'),
+            'emp_city' => $this->input->post('emp_city'),
+            'emp_department' => $this->input->post('emp_department'),
+            'emp_team' => $this->input->post('emp_team'),
+        );
+        if($this->admin_model->update_employee($id, $data)){
+            $this->session->set_flashdata('success', '<strong>Success! </strong>Employee information has been updaed!');
+            redirect($_SERVER['HTTP_REFERER']);
+        }else{
+            $this->session->set_flashdata('failed', '<strong>Failed! </strong>Something went wrong, please try again!');
+            redirect($_SERVER['HTTP_REFERER']);
+        }
+    }
+
 }
