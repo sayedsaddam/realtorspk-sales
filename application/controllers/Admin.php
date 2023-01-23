@@ -213,6 +213,9 @@ class Admin extends CI_Controller{
         $data['content'] = 'admin/employees';
         $data['results'] = $this->admin_model->search_employees($search);
         $data['teams'] = $this->admin_model->teams_for_selectbox();
+        $data['locations'] = $this->admin_model->get_locations();
+        $data['departments'] = $this->admin_model->get_departments();
+        $data['designations'] = $this->admin_model->get_designations();
         $this->load->view('admin/commons/admin_template', $data);
     }
     // Get instalments.

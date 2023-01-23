@@ -98,7 +98,7 @@
                         <?php $serial = $this->uri->segment(3) + 1; foreach($results as $res): ?>
                             <tr <?php if($res->emp_status == 0){ echo 'class="table-danger"'; } ?>>
                                 <td><?= $serial++; ?></td>
-                                <td><?= $res->emp_name; ?></td>
+                                <td><a class="empId" href="javascript:void(0)" data-id="<?= $res->id; ?>"><?= $res->emp_name; ?></a></td>
                                 <td><?= $res->emp_code; ?></td>
                                 <td><?= $res->emp_number; ?></td>
                                 <td><?= $res->dept_name; ?></td>
