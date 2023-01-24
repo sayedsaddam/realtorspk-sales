@@ -22,7 +22,7 @@
 				<span class="text-secondary font-weight-light d-print-none">About <?= count($reports).' results in {elapsed_time} seconds'; ?></span>
             </div>
 			<div class="col-md-5">
-				<h3 class="mb-0">Agent Detail</h3>
+				<h3 class="mb-0">Team Detail</h3>
 				<a href="#0" onclick="window.print()" class="d-print-none text-secondary font-weight-light">Print</a>
 			</div>
         </div>
