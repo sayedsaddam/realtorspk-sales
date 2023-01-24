@@ -300,6 +300,8 @@ class Reporting_model extends CI_Model{
                     MONTHNAME(daily_sales.rec_date) as recDate,
                     daily_sales.agent_id,
                     daily_sales.rec_amount,
+                    daily_sales.rec_amount,
+                    SUM(rec_amount) as received_amount,
                     daily_sales.rebate,
                     daily_sales.project,
                     daily_sales.edit_reason,
@@ -315,8 +317,6 @@ class Reporting_model extends CI_Model{
             $this->db->like('daily_sales.rec_date', date('Y'));
             $this->db->group_by('MONTH(daily_sales.rec_date)');
             return $this->db->get()->result();
-
-        return $this->db->get()->result();
     }
     // agent stats
     public function agent_stats($city){
