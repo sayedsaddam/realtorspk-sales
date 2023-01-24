@@ -52,7 +52,6 @@
                                 <td><?= $serial++; ?></td>
                                 <td><?= $loc->name; ?></td>
                                 <td><?= $loc->total_employees; ?> </td>
-                               
                                 <td><?php if($loc->status == 1){ echo "<span class='badge badge-success'>Active</span>"; }else{ echo '<span class="badge badge-danger">Inactive</span>'; } ?></td>
                                 <td>
                                     <a data-toggle="modal" data-target="#edit_location<?= $loc->id; ?>" href="javascript:void(0)" data-id="1" class="edit_team btn btn-primary btn-sm" >Edit</a>
@@ -68,18 +67,18 @@
                                                 </div>
                                                 <div class="modal-body">
                                                     <div class="row">
-                                                        <div class="col-md-8">
+                                                        <div class="col-md-6 offset-md-3">
+															<h2 class="font-weight-bold text-center mb-5 text-secondary">Location Information</h2>
                                                             <form action="<?= base_url('admin/update_location'); ?>" method="post">
                                                                 <input type="hidden" name="location_id" value="<?= $loc->id; ?>">
                                                                 <div class="form-group">
-                                                                    <label for="agent_name"> Name</label>
                                                                     <input type="text" name="location_name" class="form-control" value="<?= $loc->name; ?>" >
                                                                 </div>
                                                                 <div class="form-group">
-                                                                    <label for="agent_name"> No.of Employees</label>
                                                                     <input type="text" name="total_employees" class="form-control" value="<?= $loc->total_employees; ?>" >
                                                                 </div>
-                                                                <button type="submit" class="btn btn-primary">Save changes</button>
+                                                                <button type="submit" class="btn btn-primary btn-block">Save changes</button>
+																<button type="button" class="btn btn-warning btn-block" data-dismiss="modal">Cancel</button>
                                                             </form>
                                                         </div>
                                                     </div>
@@ -92,10 +91,9 @@
                                     </div>
                                     <!-- Model ends -->
                                     <a href="<?= base_url('admin/update_location_status/'.$loc->id); ?>" class="btn btn-primary btn-sm" title="Change the status whether resigned or terminated..." onclick="javascript:return confirm('Are you sure to change status ? Click OK to continue.');">
-                                <?= $loc->status == 1 ? 'Disable' : 'Enable' ?>
-                                </a>
-                                </td>
-                                   
+									<?= $loc->status == 1 ? 'Disable' : 'Enable' ?>
+									</a>
+                                </td>   
                             </tr>
                         <?php endforeach; ?>
                     </tbody>
@@ -121,27 +119,22 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form action="<?= base_url('admin/add_location'); ?>" method="post">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <label for="emp_code">Name</label>
-                                <input type="text" name="location_name" class="form-control mb-2" placeholder="Location name here.." required>
-                            </div>
-                            <div class="col-md-6">
-                                <label for="name">No.of Employees</label>
-                                <input  type="number" min="0" name="total_employees" class="form-control mb-2">
-                            </div>
-                        
-                        </div>
-                        <div class="row">
-                            <div class="col-md-2">
-                                <button type="submit" class="btn btn-primary btn-block">Save Changes</button>
-                            </div>
-                            <div class="col-md-2">
-                                <input type="reset" class="btn btn-warning btn-block" value="Clear">
-                            </div>
-                        </div>
-                    </form>
+					<div class="row">
+						<div class="col-md-6 offset-md-3">
+							<h2 class="text-center font-weight-bold text-secondary mb-5">Location Information</h2>
+							<form action="<?= base_url('admin/add_location'); ?>" method="post">
+								<div class="form-group">
+									<input type="text" name="location_name" class="form-control" placeholder="Location name" required>
+								</div>
+								<div class="form-group">
+									<input  type="number" min="0" name="total_employees" class="form-control" placeholder="No. of employees...">
+								</div>
+								<button type="submit" class="btn btn-primary btn-block">Save Changes</button>
+								<input type="reset" class="btn btn-warning btn-block" value="Clear">
+							</form>
+						</div>
+					</div>
+                    
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
