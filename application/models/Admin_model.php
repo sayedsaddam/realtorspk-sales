@@ -887,6 +887,7 @@ class Admin_model extends CI_Model{
     public function active_customers(){
         return $this->db->from('customers')->where('status', 1)->count_all_results();
     }
+ 
     // count inactive customers for pagination
     public function inactive_customers(){
         return $this->db->from('customers')->where('status', 0)->count_all_results();
@@ -1010,15 +1011,15 @@ class Admin_model extends CI_Model{
     }
     //get locations
     public function get_locations(){
-        $this->db->select('id, name,total_employees,status');
+        $this->db->select('id, name,status');
         $this->db->from('locations');
         $this->db->where('status','1');
         return $this->db->get()->result();
     }
     //get locations
     public function get_all_locations(){
-        return $this->db->select('id, name,total_employees,status')->get('locations')
-        ->result();
+        return $this->db->select('id, name,location_address,status')->get('locations')->result();
+        
     }
     // Editing / updating a sales record.
     public function update_location($id, $data){
@@ -1082,5 +1083,11 @@ class Admin_model extends CI_Model{
         $this->db->update('employees', $data);
         return true;
     }
+    //active/ inactive employees count
+    public function count_employees_with_status($location_name,$status){
+        print_r( $this->db->from('employees')->where(array('emp_status' => $status, 'emp_city' => $location_name))->count_all_results());
+
+    }
+
 
 }
