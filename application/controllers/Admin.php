@@ -900,7 +900,7 @@ class Admin extends CI_Controller{
         $updated_by = $this->session->userdata('fullname');
         $data = array(
             'name' => $this->input->post('location_name'),
-            'total_employees' => $this->input->post('total_employees'),
+            'location_address' => $this->input->post('address'),
 
         );
         if($this->admin_model->update_location($id, $data)){
@@ -930,7 +930,7 @@ class Admin extends CI_Controller{
     public function add_location(){
         $data = array(
             'name' => $this->input->post('location_name'),
-            'total_employees' => $this->input->post('total_employees'),
+            'location_address' => $this->input->post('address'),
             'created_at' => date('Y-m-d h:i:sa')
         );
         if($this->admin_model->add_location($data)){

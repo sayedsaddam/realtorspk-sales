@@ -38,23 +38,25 @@
             <table class="table table-hover table-sm">
                 <thead>
                     <tr>
-                        <th>Serial #</th>
                         <th>Name</th>
-                        <th>Total Employees</th>
+                        <th>Address</th>
+                        <th>Active</th>
+                        <th>Inactive</th>
                         <th>Status</th>
                         <th>Action</th>
                     </tr>
                 </thead>
                 <?php if(!empty($locations)): ?>
                     <tbody>
-                        <?php  $serial=1;foreach($locations as $loc): ?>
+                        <?php  foreach($locations as $loc): ?>
                             <tr id="<?= $loc->id ?>" <?= $loc->status == 0 ?  'class="table-danger"': ''  ?>>
-                                <td><?= $serial++; ?></td>
                                 <td><?= $loc->name; ?></td>
-                                <td><?= $loc->total_employees; ?> </td>
+                                <td title="<?= $loc->location_address; ?>"><?= substr($loc->location_address,0,25); ?></td>
+                                <td><?= $this->admin_model->count_employees_with_status($loc->name,'1') ?></td>
+                                <td><?= $this->admin_model->count_employees_with_status($loc->name,'0') ?></td>
                                 <td><?php if($loc->status == 1){ echo "<span class='badge badge-success'>Active</span>"; }else{ echo '<span class="badge badge-danger">Inactive</span>'; } ?></td>
                                 <td>
-                                    <a data-toggle="modal" data-target="#edit_location<?= $loc->id; ?>" href="javascript:void(0)" data-id="1" class="edit_team btn btn-primary btn-sm" >Edit</a>
+                                    <a data-toggle="modal" data-target="#edit_location<?= $loc->id; ?>" href="javascript:void(0)" data-id="1">Edit</a> |
                                     <!-- Modal starts -->
                                     <div class="modal fade" id="edit_location<?= $loc->id; ?>" tabindex="-1" role="dialog" aria-labelledby="edit_saleTitle" aria-hidden="true">
                                         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
@@ -75,7 +77,7 @@
                                                                     <input type="text" name="location_name" class="form-control" value="<?= $loc->name; ?>" >
                                                                 </div>
                                                                 <div class="form-group">
-                                                                    <input type="text" name="total_employees" class="form-control" value="<?= $loc->total_employees; ?>" >
+                                                                    <textarea name="address" class="form-control" placeholder="Address of location..."><?= $loc->location_address; ?></textarea>
                                                                 </div>
                                                                 <button type="submit" class="btn btn-primary btn-block">Save changes</button>
 																<button type="button" class="btn btn-warning btn-block" data-dismiss="modal">Cancel</button>
@@ -90,7 +92,7 @@
                                         </div>
                                     </div>
                                     <!-- Model ends -->
-                                    <a href="<?= base_url('admin/update_location_status/'.$loc->id); ?>" class="btn btn-primary btn-sm" title="Change the status whether resigned or terminated..." onclick="javascript:return confirm('Are you sure to change status ? Click OK to continue.');">
+                                    <a href="<?= base_url('admin/update_location_status/'.$loc->id); ?>" title="Change the status whether resigned or terminated..." onclick="javascript:return confirm('Are you sure to change status ? Click OK to continue.');">
 									<?= $loc->status == 1 ? 'Disable' : 'Enable' ?>
 									</a>
                                 </td>   
@@ -127,7 +129,7 @@
 									<input type="text" name="location_name" class="form-control" placeholder="Location name" required>
 								</div>
 								<div class="form-group">
-									<input  type="number" min="0" name="total_employees" class="form-control" placeholder="No. of employees...">
+                                    <textarea name="address" class="form-control" placeholder="Address of location..."></textarea>
 								</div>
 								<button type="submit" class="btn btn-primary btn-block">Save Changes</button>
 								<input type="reset" class="btn btn-warning btn-block" value="Clear">
