@@ -128,11 +128,12 @@
 </div>
 <script>
         // Monthly sales report > Locations
+        console.log(<?= $agent_sales ?>);
         new Morris.Bar({
       element: 'agentSummary',
       data: <?php echo $agent_sales; ?>,
       xkey: 'recDate',
-      ykeys: ['rec_amount'],
+      ykeys: ['received_amount'],
       labels: ['Revenue'],
       stacked: false,
       hideHover: true,
