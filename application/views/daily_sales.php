@@ -139,7 +139,7 @@
                                         </thead>
                                         <tbody>
                                             <?php
-                                            if(!empty($daily_sales)):
+                                            	if(!empty($daily_sales)):
                                                 $total_targets_isb = 0;
                                                 $total_isb = 0;
                                                 foreach($daily_sales as $sale):
@@ -147,37 +147,37 @@
                                                     $total_targets_isb += $sale->revenue_target; ?>
                                                 <tr class="">
                                                     <td>
-														<?php if($sale->gender == 'm' && $sale->received_amount >= 10000000){ echo ' <span class="bg-warning p-1 rounded">&#128014;</span>'; }elseif($sale->gender == 'f' && $sale->received_amount >= 5000000){ echo ' <span class="bg-warning p-1 rounded">&#128052;</span>'; } ?>
-														<?= $sale->emp_name; ?>
-													</td>
+																		<?php if($sale->gender == 'm' && $sale->received_amount >= 10000000){ echo ' <span class="bg-warning p-1 rounded">&#128014;</span>'; }elseif($sale->gender == 'f' && $sale->received_amount >= 5000000){ echo ' <span class="bg-warning p-1 rounded">&#128052;</span>'; } ?>
+																		<?= $sale->emp_name; ?>
+																	</td>
                                                     <td>
                                                         <?= number_format($sale->revenue_target/1000000, 3); ?>
                                                     </td>
                                                     <td class="<?php if($sale->received_amount >= $sale->revenue_target){ echo 'text-success'; }else{ echo 'text-danger'; } ?> font-weight-bold"><?= number_format(($sale->received_amount)/1000000, 3); ?></td>
                                                     <td><?= $sale->revenue_target > 0 ? number_format($sale->received_amount/$sale->revenue_target*100, 2) : '100'; ?></td>
-													<td>
-														<a data-id="<?= $sale->agent_id; ?>" class="sales_info" href="javascript:void(0)">detail</a>
-													</td>
+																	<td>
+																		<a data-id="<?= $sale->agent_id; ?>" class="sales_info" href="javascript:void(0)">detail</a>
+																	</td>
                                                 </tr>
                                                 <?php $total_isb += ($sale->received_amount); ?>
-                                            <?php endif; endforeach; ?>
-												<?php if($total_isb > 0): ?>
-													<tr class="total-revenue">
-														<td class="font-weight-bold">Total</td>
-														<td class="font-weight-bold"><?= number_format($total_targets_isb/1000000, 3); ?></td>
-														<td class="font-weight-bold"><?= number_format($total_isb/1000000, 3); ?></td>
-                                                        <td class="font-weight-bold" colspan="2"><?= number_format($total_psh/$total_targets_psh*100, 2).'%'; ?></td>
-													</tr>
-												<?php else: ?>
-													<tr class="table-danger">
-														<td colspan="5" align="center">No record found.</td>
-													</tr>
-												<?php endif; ?>
-                                            <?php else: ?>
+                                           	<?php endif; endforeach; ?>
+															<?php if($total_isb > 0): ?>
+																<tr class="total-revenue">
+																	<td class="font-weight-bold">Total</td>
+																	<td class="font-weight-bold"><?= number_format($total_targets_isb/1000000, 3); ?></td>
+																	<td class="font-weight-bold"><?= number_format($total_isb/1000000, 3); ?></td>
+																	<td class="font-weight-bold" colspan="2"><?= number_format($total_psh/$total_targets_psh*100, 2).'%'; ?></td>
+																</tr>
+															<?php else: ?>
+																<tr class="table-danger">
+																	<td colspan="5" align="center">No record found.</td>
+																</tr>
+															<?php endif; ?>
+                                            	<?php else: ?>
                                                 <tr class="table-danger">
-                                                    <td colspan="8" align="center">No record found!</td>
+                                                   <td colspan="8" align="center">No record found!</td>
                                                 </tr>
-                                            <?php endif; ?>
+                                            	<?php endif; ?>
                                         </tbody>
                                     </table>
                                 </div>
@@ -190,70 +190,70 @@
                 <div class="col-xl-lg-6 col-md-6">
                     <div class="card border-secondary">
                         <div class="card-header bg-transparent">
-                            <h3 class="font-weight-bold text-secondary">Revenue by Teams</h3>
+                           <h3 class="font-weight-bold text-secondary">Revenue by Teams</h3>
                         </div>
                         <div class="card-body">
-                            <div class="row">
-                                <div class="col-xl-col-lg-12 col-md-12 col-sm-12 table-responsive" style="height: 400px;overflow: scroll;">
-                                    <table class="table table-sm">
-                                        <thead>
-                                            <tr class="text-secondary">
-                                                <th>Sr #</th>
-                                                <th>Team Name</th>
-                                                <th>BCM Name</th>
-                                                <th>Target</th>
-                                                <th>Achieved</th>
-                                                <th>Percentage</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <?php if(!empty($teams_report)): $serial = 1;
-                                                $total_targets_assigned = 0;
-                                                $total_targets_achieved = 0;
-                                                $total_targets_teams = 0;
-                                                foreach($teams_report as $tr): ?>
-                                            <tr>
-                                                <td><?= $serial++; ?></td>
-                                                <td><a data-id="<?= $tr->team_id; ?>" class="team_info" href="javascript:void(0)"><?= $tr->team_name; ?></a></td>
-                                                <td><?= $tr->team_lead; //echo number_format($tr->total_target/1000000, 2); ?></td>
-                                                <td>
-                                                    <?php $team_target =  $this->home_model->sum_targets($tr->team_id); echo number_format($team_target->total_targets/1000000, 3); ?>
-                                                </td>
-                                                <td><?= number_format($tr->received_amount/1000000, 3); ?></td>
-                                                <td class="<?php if($tr->received_amount > 0){ echo 'text-success'; }else{ echo 'text-danger'; } ?> font-weight-bold">
-                                                    <?php if($team_target->total_targets > 0){
-                                                        $percentage_target = ($tr->received_amount/$team_target->total_targets*100);
-                                                    }
-                                                    echo round($percentage_target, 3).'%'; ?>
-                                                </td>
-                                            </tr>
-                                            <?php $total_targets_assigned += $tr->total_target;
-                                                $total_targets_achieved += $tr->received_amount;
-                                                $total_targets_teams += $team_target->total_targets; ?>
-                                            <?php endforeach; endif; ?>
-                                            <tr class="total-revenue">
-                                                <td class="font-weight-bold">Total</td>
-                                                <td></td>
-                                                <td></td>
-                                                <td class="font-weight-bold"><?php if(!empty($total_targets_teams)){ echo number_format($total_targets_teams/1000000, 3); } ?></td>
-                                                <td class="font-weight-bold" title="Sales in 091 Mall and Florenza"><?php //if(!empty($total_targets_achieved)){ echo number_format($total_targets_achieved/1000000, 3); }
-                                                echo number_format($total_targets_achieved/1000000, 3); // 091 mall and florenza sales. ?></td>
-                                                <td class="font-weight-bold">
-                                                    <?php if(!empty($total_targets_achieved) && !empty($total_targets_teams)){ $percentage = ($total_targets_achieved/$total_targets_teams*100); 
-                                                        echo round($percentage, 3).'%'; } ?>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
+									<div class="row">
+										<div class="col-xl-col-lg-12 col-md-12 col-sm-12 table-responsive" style="height: 400px;overflow: scroll;">
+											<table class="table table-sm">
+													<thead>
+														<tr class="text-secondary">
+															<th>Sr #</th>
+															<th>Team Name</th>
+															<th>BCM Name</th>
+															<th>Target</th>
+															<th>Achieved</th>
+															<th>Percentage</th>
+														</tr>
+													</thead>
+													<tbody>
+														<?php if(!empty($teams_report)): $serial = 1;
+															$total_targets_assigned = 0;
+															$total_targets_achieved = 0;
+															$total_targets_teams = 0;
+															foreach($teams_report as $tr): ?>
+														<tr>
+															<td><?= $serial++; ?></td>
+															<td><a data-id="<?= $tr->team_id; ?>" class="team_info" href="javascript:void(0)"><?= $tr->team_name; ?></a></td>
+															<td><?= $tr->team_lead; //echo number_format($tr->total_target/1000000, 2); ?></td>
+															<td>
+																	<?php $team_target =  $this->home_model->sum_targets($tr->team_id); echo number_format($team_target->total_targets/1000000, 3); ?>
+															</td>
+															<td><?= number_format($tr->received_amount/1000000, 3); ?></td>
+															<td class="<?php if($tr->received_amount > 0){ echo 'text-success'; }else{ echo 'text-danger'; } ?> font-weight-bold">
+																	<?php if($team_target->total_targets > 0){
+																		$percentage_target = ($tr->received_amount/$team_target->total_targets*100);
+																	}
+																	echo round($percentage_target, 3).'%'; ?>
+															</td>
+														</tr>
+														<?php $total_targets_assigned += $tr->total_target;
+															$total_targets_achieved += $tr->received_amount;
+															$total_targets_teams += $team_target->total_targets; ?>
+														<?php endforeach; endif; ?>
+														<tr class="total-revenue">
+															<td class="font-weight-bold">Total</td>
+															<td></td>
+															<td></td>
+															<td class="font-weight-bold"><?php if(!empty($total_targets_teams)){ echo number_format($total_targets_teams/1000000, 3); } ?></td>
+															<td class="font-weight-bold" title="Sales in 091 Mall and Florenza"><?php //if(!empty($total_targets_achieved)){ echo number_format($total_targets_achieved/1000000, 3); }
+															echo number_format($total_targets_achieved/1000000, 3); // 091 mall and florenza sales. ?></td>
+															<td class="font-weight-bold">
+																	<?php if(!empty($total_targets_achieved) && !empty($total_targets_teams)){ $percentage = ($total_targets_achieved/$total_targets_teams*100); 
+																		echo round($percentage, 3).'%'; } ?>
+															</td>
+														</tr>
+													</tbody>
+											</table>
+										</div>
+									</div>
                         </div>
                     </div>
                 </div>
                 <div class="col-xl-lg-6 col-md-6">
                     <div class="card border-secondary">
                         <div class="card-header bg-transparent">
-                            <h3 class="text-secondary font-weight-bold">Revenue by BCMs</h3>
+									<h3 class="text-secondary font-weight-bold">Revenue by BCMs</h3>
                         </div>
                         <div class="card-body" style="height: 440px;overflow: scroll;">
 									<table class="table table-sm">
