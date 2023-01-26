@@ -223,8 +223,8 @@
 															<td class="<?php if($tr->received_amount > 0){ echo 'text-success'; }else{ echo 'text-danger'; } ?> font-weight-bold">
 																	<?php if($team_target->total_targets > 0){
 																		$percentage_target = ($tr->received_amount/$team_target->total_targets*100);
-																	}
-																	echo round($percentage_target, 3).'%'; ?>
+																		echo round($percentage_target, 3).'%';
+																	}else{ echo '00'; } ?>
 															</td>
 														</tr>
 														<?php $total_targets_assigned += $tr->total_target;
