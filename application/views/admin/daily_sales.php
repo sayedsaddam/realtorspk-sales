@@ -15,6 +15,11 @@
     </div>
 </div>
 <div class="container-fluid">
+    <div class="alert alert-info">
+        <marquee onmouseover="this.stop();" onmouseout="this.start()">
+            <strong>Updates! </strong>Daily sales are now searchable, you can search for specific agents in the list.
+        </marquee>
+    </div>
     <?php if($success = $this->session->flashdata('success')): ?>
         <div class="alert alert-success"><?= $success; ?></div>
     <?php elseif($failed = $this->session->flashdata('failed')): ?>
@@ -61,8 +66,8 @@
                     <select name="archive_city" class="form-control" required>
                         <option value="" disabled selected>--select city--</option>
                         <?php if(!empty($locations)): foreach($locations as $loc): ?>
-									<option value="<?= $loc->name; ?>"><?= $loc->name; ?></option>
-								<?php endforeach; endif; ?>
+                            <option value="<?= $loc->name; ?>"><?= $loc->name; ?></option>
+                        <?php endforeach; endif; ?>
                     </select>
                 </div>
                 <!-- <div class="form-group mx-2">
@@ -145,7 +150,7 @@
                     <h3>Sales Stats - Realtors PK</h3>
                 </div>
                 <div class="card-body table-responsive">
-                    <table class="table table-hover table-sm" id="sales_peshawar">
+                    <table class="table table-hover table-sm">
                         <thead>
                             <tr class="bg-dark text-light">
                                 <th>Sr #</th>
@@ -155,7 +160,7 @@
                                 <!-- <th>Rebate</th> -->
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="sales_peshawar">
                             <input type="search" class="form-control mb-2" id="sales_peshawar_search" placeholder="Search for agent in Realtors PK ...">
                             <?php if(!empty($daily_sales_peshawar)): $serial = 1; $psh_total = 0; $psh_targets = 0;
                             foreach($daily_sales_peshawar as $sale): ?>
