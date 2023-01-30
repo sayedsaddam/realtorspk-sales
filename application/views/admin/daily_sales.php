@@ -145,7 +145,7 @@
                     <h3>Sales Stats - Realtors PK</h3>
                 </div>
                 <div class="card-body table-responsive">
-                    <table class="table table-hover table-sm">
+                    <table class="table table-hover table-sm" id="sales_peshawar">
                         <thead>
                             <tr class="bg-dark text-light">
                                 <th>Sr #</th>
@@ -156,6 +156,7 @@
                             </tr>
                         </thead>
                         <tbody>
+                            <input type="search" class="form-control mb-2" id="sales_peshawar_search" placeholder="Search for agent in Realtors PK ...">
                             <?php if(!empty($daily_sales_peshawar)): $serial = 1; $psh_total = 0; $psh_targets = 0;
                             foreach($daily_sales_peshawar as $sale): ?>
                             <?php $psh_total += ((int)$sale->amount_received);
@@ -332,3 +333,14 @@
         </div>
     <?php endif; ?>
 </div>
+<script>
+    $(document).ready(function(){
+   // peshawar sales search
+        $("#sales_peshawar_search").on("keyup", function() {
+            var value = $(this).val().toLowerCase();
+            $("#sales_peshawar tr").filter(function() {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
+    })
+</script>
