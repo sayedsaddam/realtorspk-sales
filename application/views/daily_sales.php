@@ -385,6 +385,7 @@
 				$nh = 0;
 				$aht = 0;
 				$ahc = 0;
+				$ahr = 0;
 				foreach($daily_sales as $projectSales){
 					$zeroNineOne += $projectSales->zero_nine_one;
 					$florenza += $projectSales->florenza;
@@ -392,6 +393,7 @@
 					$nh += $projectSales->nh;
 					$aht += $projectSales->aht;
 					$ahc += $projectSales->ahc;
+					$ahr += $projectSales->ahr;
 				}
 			?>
 			<div class="row mt-3">
@@ -460,6 +462,14 @@
 												</td>
 												<td><?= number_format($ahc/1000000, 2); ?> Million</td>
 												<td>DI Khan</td>
+											</tr>
+											<tr>
+												<td>
+													<img src="<?= base_url('assets/images/ahr.png'); ?>" class="img-fluid" alt="091 Mall" width="25">
+													AH Residencia
+												</td>
+												<td><?= number_format($ahr/1000000, 2); ?> Million</td>
+												<td>Islamabad</td>
 											</tr>
 										</tbody>
 									</table>
@@ -573,6 +583,7 @@
 									<th><img src="<?= base_url('assets/images/aht.png'); ?>" alt="AH Tower" width="25"></th>
 									<th><img src="<?= base_url('assets/images/nh.png'); ?>" alt="North Hills" width="25"></th>
 									<th><img src="<?= base_url('assets/images/ahcity.png'); ?>" alt="AH City" width="25"></th>
+									<th><img src="<?= base_url('assets/images/ahr.png'); ?>" alt="AH Residencia" width="25"></th>
 									<th>TTL</th>
 								</tr>
 							</thead>
@@ -611,6 +622,7 @@
 									<th><img src="<?= base_url('assets/images/aht.png'); ?>" alt="AH Tower" width="25"></th>
 									<th><img src="<?= base_url('assets/images/nh.png'); ?>" alt="North Hills" width="25"></th>
 									<th><img src="<?= base_url('assets/images/ahcity.png'); ?>" alt="AH City" width="25"></th>
+									<th><img src="<?= base_url('assets/images/ahr.png'); ?>" alt="AH Residencia" width="25"></th>
 								</tr>
 							</thead>
 							<tbody class="sales_list text-center">
@@ -651,7 +663,7 @@ $(document).ready(function(){
         $('.employees_list').html('');
         $.each(response, function(index, res){
             $('.modal-title').html(res.team_name + ' &raquo; ' + res.bdm_name + ' &raquo; '+ res.team_lead);
-            $('.employees_list').append(`<tr><td class='text-left'>${res.emp_name}</td><td>${Number(res.revenue_target).toLocaleString()}</td><td>${Number(res.zero_nine_one).toLocaleString()}</td><td>${Number(res.florenza).toLocaleString()}</td><td title='MoH for Hangu team...'>${Number(res.moh).toLocaleString()}</td><td>${Number(res.aht).toLocaleString()}</td><td>${Number(res.nh).toLocaleString()}</td><td>${Number(res.ahc).toLocaleString()}</td><td>${Number(res.received_amount).toLocaleString()}</td></tr>`);
+            $('.employees_list').append(`<tr><td class='text-left'>${res.emp_name}</td><td>${Number(res.revenue_target).toLocaleString()}</td><td>${Number(res.zero_nine_one).toLocaleString()}</td><td>${Number(res.florenza).toLocaleString()}</td><td title='MoH for Hangu team...'>${Number(res.moh).toLocaleString()}</td><td>${Number(res.aht).toLocaleString()}</td><td>${Number(res.nh).toLocaleString()}</td><td>${Number(res.ahc).toLocaleString()}</td><td>${Number(res.ahr).toLocaleString()}</td><td>${Number(res.received_amount).toLocaleString()}</td></tr>`);
         });
         $('#team_info').modal('show');
       }
@@ -670,7 +682,7 @@ $(document).ready(function(){
 			$('.sales_list').html('');
 			$.each(response, function(index, res){
 				$('.modal-title-sales').html(res.emp_name + ' &raquo; ' + res.team_name);
-				$('.sales_list').append(`<tr><td>${Number(res.zero_nine_one).toLocaleString()}</td><td>${Number(res.florenza).toLocaleString()}</td><td>${Number(res.moh).toLocaleString()}</td><td title='MoH for Hangu team...'>${Number(res.aht).toLocaleString()}</td><td>${Number(res.nh).toLocaleString()}</td><td>${Number(res.ahc).toLocaleString()}</td></tr>`);
+				$('.sales_list').append(`<tr><td>${Number(res.zero_nine_one).toLocaleString()}</td><td>${Number(res.florenza).toLocaleString()}</td><td>${Number(res.moh).toLocaleString()}</td><td title='MoH for Hangu team...'>${Number(res.aht).toLocaleString()}</td><td>${Number(res.nh).toLocaleString()}</td><td>${Number(res.ahc).toLocaleString()}</td><td>${Number(res.ahr).toLocaleString()}</td></tr>`);
 			});
 			$('#sales_info').modal('show');
 		}
