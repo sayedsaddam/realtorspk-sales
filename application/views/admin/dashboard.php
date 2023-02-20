@@ -905,7 +905,7 @@
                             $('#daily_sales_agents').append(`<tr>
                             <td><input type="checkbox" name="emp_id[]" value="${res.emp_code}:${res.emp_team}"></td>
                             <td>${res.emp_name}, ${res.emp_code}</td>
-                            <td><select name="project[]" class="form-control"><option value="" disabled selected>--Project--</option><option value="091 Mall">091 Mall</option><option value="Florenza">Florenza</option><option value="MoH">Mall of Hangu</option><option value="North Hills">North Hills</option><option value="AH Tower">AH Tower</option><option value="AH City">AH City</option></select></td>
+                            <td><select name="project[]" class="form-control"><option value="" disabled selected>--Project--</option><option value="091 Mall">091 Mall</option><option value="Florenza">Florenza</option><option value="MoH">Mall of Hangu</option><option value="North Hills">North Hills</option><option value="AH Tower">AH Tower</option><option value="AH City">AH City</option><option value="AH Residencia">AH Residencia</option></select></td>
                             <td><input type="date" name="receiving_date[]" class="form-control receiving_date" placeholder="Receiving date..."></td>
                             <td><input type="text" name="received_amount[]" class="form-control received_amount" placeholder="Received amount..."></td><td><input type="text" name="rebate[]" class="form-control rebate" placeholder="Rebate %age..."></td></tr>`);
                             $('#btn-daily_sales').removeAttr('disabled');

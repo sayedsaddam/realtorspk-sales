@@ -862,12 +862,12 @@ class Admin extends CI_Controller{
                     }
                     else{
                         $this->admin_model->assign_targets($data);
-                        $projects = array('091 Mall', 'Florenza', 'MoH', 'North Hills', 'AH Tower', 'AH City');
+                        $projects = array('091 Mall', 'Florenza', 'MoH', 'North Hills', 'AH Tower', 'AH City', 'AH Residencia');
                         $split = explode(':', $empId[$j]);
                         $data_sales[$j] = array(
                                 'agent_id' => $split[0], // first part > Employee ID
                                 'team' => $split[1], // second part > Team ID
-                                'project' => $projects[rand(0, 5)],
+                                'project' => $projects[rand(0, 6)],
                                 'rec_date' => date('Y-m-d H:i:s'),
                                 'rec_amount' => 0,
                                 'rebate' => 0,
