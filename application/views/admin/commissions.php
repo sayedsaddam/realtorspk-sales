@@ -95,7 +95,7 @@
 				$total_amount_ahc_bcm3=0;
 				$total_targets_bcm3 = 0;
 				foreach($daily_sales as $sale){
-					if($sale->emp_team == 11 || $sale->emp_team == 12 || $sale->emp_team == 13 || $sale->emp_team == 14){
+					if($sale->emp_team == 11 || $sale->emp_team == 12 || $sale->emp_team == 13 || $sale->emp_team == 14 || $sale->emp_team == 15){
 						$total_targets_bcm3 += $sale->revenue_target;
 						$total_amount_zn_bcm3 += $sale->zero_nine_one;
 						$total_amount_fl_bcm3 += $sale->florenza;
