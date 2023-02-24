@@ -17,7 +17,7 @@ class Home extends CI_Controller{
             $name = $login->fullname;
             $this->session->set_userdata(array('id' => $id, 'username' => $username, 'fullname' => $name));
 			$session = $this->session->userdata('username');
-            if($session == 'realtors' || $session == 'yasir.ali' || $session == 'akbar.arbab' || $session == 'obaid.rehman' || $session == 'shahana.farah' || $session == 'adil.hussain' || $session == 'nasir.jalil' || $session == 'isdaq.ahmed'){
+            if($session == 'realtors' || $session == 'yasir.ali' || $session == 'akbar.arbab' || $session == 'obaid.rehman' || $session == 'shahana.farah' || $session == 'ghulam.tehsin' || $session == 'nasir.jalil' || $session == 'isdaq.ahmed'){
                 redirect('home/daily_sales');
             }
         }else{

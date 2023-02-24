@@ -11,7 +11,7 @@
     <script src="<?php echo base_url('assets/js/jquery.min.js'); ?>"></script>
     <script src="<?php echo base_url('assets/js/bootstrap.min.js'); ?>"></script>
     <title>
-        <?php if($session == 'realtors' || $session == 'yasir.ali' || $session == 'akbar.arbab' || $session == 'shahana.farah' || $session == 'nasir.jalil' || $session == 'obaid.rehman' || $session == 'isdaq.ahmed'){ echo 'Leader Board | Realtors PK'; }else{ echo 'Login | Realtors PK'; } ?>
+        <?php if($session == 'realtors' || $session == 'yasir.ali' || $session == 'akbar.arbab' || $session == 'shahana.farah' || $session == 'nasir.jalil' || $session == 'obaid.rehman' || $session == 'isdaq.ahmed' || $session == 'ghulam.tehsin'){ echo 'Leader Board | Realtors PK'; }else{ echo 'Login | Realtors PK'; } ?>
     </title>
 </head>
 <body>
@@ -19,7 +19,7 @@
         <div class="row mb-2">
             <div class="col-md-7 col-sm-12">
                 <h2 class="font-weight-bold">
-                    <?php if($session == 'realtors' || $session == 'yasir.ali' || $session == 'akbar.arbab' || $session == 'shahana.farah' || $session == 'nasir.jalil' || $session == 'obaid.rehman' || $session == 'isdaq.ahmed'){ echo "Leader Board - Realtors PK <small style='font-size: 15px;'>(Welcome back, ".$this->session->userdata('fullname').")</small> <small style='font-size: 15px;'>Ending in <span id='endingIn'></span></small>"; }else{ echo "Login"; } ?>
+                    <?php if($session == 'realtors' || $session == 'yasir.ali' || $session == 'akbar.arbab' || $session == 'shahana.farah' || $session == 'nasir.jalil' || $session == 'obaid.rehman' || $session == 'isdaq.ahmed' || $session == 'ghulam.tehsin'){ echo "Leader Board - Realtors PK <small style='font-size: 15px;'>(Welcome back, ".$this->session->userdata('fullname').")</small> <small style='font-size: 15px;'>Ending in <span id='endingIn'></span></small>"; }else{ echo "Login"; } ?>
                 </h2>
             </div>
             <div class="col-md-5 col-sm-12 text-right">
@@ -35,7 +35,7 @@
     </div>
     <!-- Leaderboard - daily sales. -->
     <div class="container-fluid">
-        <?php if($session == 'realtors' || $session == 'yasir.ali' || $session == 'akbar.arbab' || $session == 'shahana.farah' || $session == 'adil.hussain' || $session == 'nasir.jalil' || $session == 'obaid.rehman' || $session == 'isdaq.ahmed'): ?>
+        <?php if($session == 'realtors' || $session == 'yasir.ali' || $session == 'akbar.arbab' || $session == 'shahana.farah' || $session == 'ghulam.tehsin' || $session == 'nasir.jalil' || $session == 'obaid.rehman' || $session == 'isdaq.ahmed'): ?>
 			<div class="row total-revenue rounded mb-2 py-2 justify-content-sm-between">
 				<div class="col-md-2 col-sm-6 border-left border-success">
 					<strong>Agent : <?= $daily_sales[0]->emp_name; ?></strong><br>
