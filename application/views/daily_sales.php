@@ -271,10 +271,14 @@
 												if(!empty($bcms)):
 													$total_targets_bcms = 0;
 													$total_sales_bcms = 0;
+													$managers = array('Muhammad Akbar Arbab', 'Obaid ur Rehman', 'Isdaq Ahmad');
 													foreach($bcms as $bcm):
 											?>
 											<tr>
-												<td><?= $bcm->team_lead ? $bcm->team_lead : '-/-'; ?></td>
+												<td>
+													<?= $bcm->team_lead ? $bcm->team_lead : '-/-'; ?>, 
+													<?php if($bcm->team_lead == 'BCM-I'){ echo $managers[0]; }elseif($bcm->team_lead == 'BCM-II'){ echo $managers[1]; }else{ echo $managers[2]; } ?>
+												</td>
 												<td><?php $bcm_targets = $this->home_model->sum_bcms_targets($bcm->team_lead); echo number_format($bcm_targets->total_targets_bcm/1000000, 2); ?></td>
 												<td><?= number_format($bcm->total_revenue/1000000, 2); ?></td>
 												<td class="<?= $bcm->total_revenue > 0 ? 'text-success' : 'text-danger'; ?> font-weight-bold">
