@@ -49,11 +49,11 @@
 					<strong>Runner-up : <?= $teams_report[1]->team_name; ?></strong><br>
 					Revenue <span><?= number_format($teams_report[1]->received_amount/1000000, 2); ?> M</span>
 				</div>
-                <div class="col-md-2 col-sm-6 border-left border-success">
+            <div class="col-md-2 col-sm-6 border-left border-success">
 					<strong>Champion : <?= $bcms[0]->team_lead; ?></strong><br>
 					Revenue : <span><?= number_format($bcms[0]->total_revenue/1000000, 2); ?></span>
 				</div>
-                <div class="col-md-2 col-sm-6 border-left border-success">
+            <div class="col-md-2 col-sm-6 border-left border-success">
 					<strong>Region : -/-</strong><br>
 					Revenue : <span>-/-</span>
 				</div>
