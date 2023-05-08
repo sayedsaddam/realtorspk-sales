@@ -246,7 +246,7 @@ class Home_model extends CI_Model{
 		$this->db->from('teams');
 		$this->db->join('employees', 'teams.team_id = employees.emp_team');
 		$this->db->join('daily_sales', 'employees.emp_code = daily_sales.agent_id');
-		$this->db->where_not_in('teams.team_lead', array('BCM-1', 'BCM-2', 'BCM-3')); // exclude the BCMs
+		$this->db->where_not_in('teams.team_name', array('BCM-1', 'BCM-2', 'BCM-3')); // exclude the BCMs
 		$this->db->like('daily_sales.rec_date', date('Y'));
 		$this->db->group_by('teams.team_id');
 		$this->db->order_by('received_amount', 'DESC');
