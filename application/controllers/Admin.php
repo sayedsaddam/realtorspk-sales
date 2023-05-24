@@ -228,7 +228,7 @@ class Admin extends CI_Controller{
         $data['daily_sales_hangu'] = $this->admin_model->get_daily_sales_hangu();
         $data['daily_sales_peshawar'] = $this->admin_model->get_daily_sales_peshawar();
         $data['daily_sales_islamabad'] = $this->admin_model->get_daily_sales_islamabad();
-        $data['daily_sales_kohat'] = $this->admin_model->get_daily_sales_kohat();
+        $data['daily_sales_charsaddah'] = $this->admin_model->get_daily_sales_charsaddah();
         $data['locations'] = $this->admin_model->get_locations();
         // $data['last_updated_by'] = $this->admin_model->last_updated_by();
         $this->load->view('admin/commons/admin_template', $data);

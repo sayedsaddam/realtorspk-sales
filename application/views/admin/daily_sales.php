@@ -96,7 +96,7 @@
             </small>
             <div class="card">
                 <div class="card-header bg-info text-white">
-                    <h3>Sales Stats - Kohat</h3>
+                    <h3>Sales Stats - Charsaddah</h3>
                 </div>
                 <div class="card-body table-reponsive">
                     <table class="table table-hover table-sm">
@@ -110,10 +110,10 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <?php if(!empty($daily_sales_kohat)): $serial = 1; $isbd_total = 0; $isbd_targets = 0;
-                            foreach($daily_sales_kohat as $sale): ?>
-                            <?php $isbd_total += ((int)$sale->amount_received);
-                                    $isbd_targets += ((int)$sale->revenue_target); ?>
+                            <?php if(!empty($daily_sales_charsaddah)): $serial = 1; $csd_total = 0; $csd_targets = 0;
+                            foreach($daily_sales_charsaddah as $sale): ?>
+                            <?php $csd_total += ((int)$sale->amount_received);
+                                    $csd_targets += ((int)$sale->revenue_target); ?>
                                 <tr class="">
                                     <td><?= $serial++; ?></td>
                                     <td><a href="<?= base_url('admin/sale_detail/'.$sale->emp_id); ?>"><?= $sale->emp_name; ?></a></td>
@@ -124,8 +124,8 @@
                             <?php endforeach; ?>
                                 <tr class="table-success">
                                     <td class="font-weight-bold">Total</td>
-                                    <td colspan="2" class="font-weight-bold" align="center"><?= number_format($isbd_targets); ?></td>
-                                    <td class="font-weight-bold"><?= number_format($isbd_total); ?></td>                                
+                                    <td colspan="2" class="font-weight-bold" align="center"><?= number_format($csd_targets); ?></td>
+                                    <td class="font-weight-bold"><?= number_format($csd_total); ?></td>                                
                                 </tr>
                             <?php else: ?>
                                 <tr class="table-danger">

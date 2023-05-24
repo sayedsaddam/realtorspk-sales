@@ -200,7 +200,7 @@ class Admin_model extends CI_Model{
         return $this->db->get()->result();
     }
     // Get daily sales and display them on the website's front - Kohat.
-    public function get_daily_sales_kohat(){
+    public function get_daily_sales_charsaddah(){
         $this->db->select('SUM(rec_amount) as amount_received,
                             daily_sales.id,
                             daily_sales.added_by,
@@ -219,7 +219,7 @@ class Admin_model extends CI_Model{
         $this->db->from('daily_sales');
         $this->db->join('employees', 'employees.emp_code = daily_sales.agent_id', 'left');
         $this->db->join('targets', 'daily_sales.agent_id = targets.emp_id', 'left');
-        $this->db->where(array('employees.emp_city' => 'Kohat', 'target_month' => date('F, Y')));
+        $this->db->where(array('employees.emp_city' => 'Charsaddah', 'target_month' => date('F, Y')));
         $this->db->like('daily_sales.rec_date', date('Y-m'));
         $this->db->order_by('amount_received', 'DESC');
         $this->db->group_by('daily_sales.agent_id');
