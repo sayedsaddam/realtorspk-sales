@@ -233,7 +233,7 @@
 														<td class="font-weight-bold">Total</td>
 														<td class="font-weight-bold"><?= number_format($total_targets_charsaddah/1000000, 3); ?></td>
 														<td class="font-weight-bold"><?= number_format($total_charsaddah/1000000, 3); ?></td>
-														<td class="font-weight-bold" colspan="2"><?= $total_charsaddah > 0 ? number_format($total_charsaddah/$total_targets_charsaddah*100, 2).'%' : '100'; ?></td>
+														<td class="font-weight-bold" colspan="2"><?= $total_targets_charsaddah > 0 ? number_format($total_charsaddah/$total_targets_charsaddah*100, 2).'%' : '100'; ?></td>
 													</tr>
 												<?php else: ?>
 													<tr class="table-danger">
@@ -312,6 +312,83 @@
 					</div>
             </div>
 				<div class="row no-gutters mt-3" id="annualReport">
+					<div class="col-xl-col-lg-6 col-md-6 col-sm-6">
+						<div class="card border-secondary">
+							<div class="card-header bg-transparent">
+								<h3 class="text-secondary font-weight-bold">Revenue by BDMs, BCMs & Zonal</h3>
+							</div>
+							<div class="card-body" style="height: 455px;overflow: scroll;">
+								<div class="row">
+									<div class="col-xl-col-lg-6 col-md-6 col-sm-6 table-responsive border-right">
+										<table class="table table-sm">
+											<thead>
+												<tr class="text-secondary">
+													<th>Name</th>
+													<th>TGT</th>
+													<th>Rev</th>
+												</tr>
+											</thead>
+											<tbody>
+												<?php
+												if(!empty($daily_sales)):
+													foreach($daily_sales as $sale):
+													if($sale->revenue_target == '6000000'):
+														$total_targets_psh += $sale->revenue_target; ?>
+												<tr class="">
+													<td>
+														<?= $sale->emp_name; ?>
+													</td>
+													<td>
+														<?= number_format($sale->revenue_target/1000000, 2); ?>
+													</td>
+													<td><?= number_format(($sale->received_amount)/1000000, 2); ?></td>
+												</tr>
+												<?php endif; endforeach; ?>
+												<?php else: ?>
+													<tr class="table-danger">
+														<td colspan="8" align="center">No record found!</td>
+													</tr>
+												<?php endif; ?>
+											</tbody>
+										</table>
+									</div>
+									<div class="col-xl-col-lg-6 col-md-6 col-sm-6 table-responsive">
+										<table class="table table-sm">
+											<thead>
+												<tr class="text-secondary">
+													<th>Name</th>
+													<th>TGT</th>
+													<th>Rev</th>
+												</tr>
+											</thead>
+											<tbody>
+												<?php
+												if(!empty($daily_sales)):
+													foreach($daily_sales as $sale):
+													if($sale->revenue_target == '10000000'):
+														$total_targets_psh += $sale->revenue_target; ?>
+												<tr class="">
+													<td>
+														<?= $sale->emp_name; ?>
+													</td>
+													<td>
+														<?= number_format($sale->revenue_target/1000000, 2); ?>
+													</td>
+													<td><?= number_format(($sale->received_amount)/1000000, 2); ?></td>
+												</tr>
+												<?php endif; endforeach; ?>
+												<?php else: ?>
+													<tr class="table-danger">
+														<td colspan="8" align="center">No record found!</td>
+													</tr>
+												<?php endif; ?>
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
 					<div class="col-xl-lg-6 col-md-6">
 						<div class="card border-secondary">
 							<div class="card-header bg-transparent">
@@ -363,91 +440,6 @@
 							</div>
 						</div>
                </div>
-               <div class="col-lg-6 col-md-6">
-						<div class="card border-secondary">
-							<div class="card-header bg-transparent">
-								<h3 class="font-weight-bold text-secondary">Annual Sales Report for the year <?= date('Y'); ?></h3>
-							</div>
-							<div class="card-body" style="height:455px;overflow: scroll;">
-								<div class="row">
-									<div class="col-md-4 table-responsive">
-										<h4 class="text-secondary">King of the Year</h4>
-										<table class="table table-sm">
-											<thead>
-												<tr class="text-secondary">
-													<th>Name & Revenue</th>
-												</tr>
-											</thead>
-											<tbody>
-												<?php $limit = 0; foreach($annual_sales_agents as $sale): if($sale->gender == 'm'): $limit++; ?>
-												<tr>
-													<td>
-														<p class="mb-0"><?= $sale->emp_name; ?></p>
-														<p class="text-secondary mb-1">Revenue: <?= number_format($sale->amount_received/1000000, 3); ?> M</p>
-													</td>
-												</tr>
-												<?php endif; if($limit == 10){ break; } endforeach; ?>
-											</tbody>
-										</table>
-									</div>
-									<div class="col-md-4 table-responsive border-left">
-										<h4 class="text-secondary">Queen of the Year</h4>
-										<table class="table table-sm">
-											<thead>
-												<tr class="text-secondary">
-													<th>Name & Revenue</th>
-												</tr>
-											</thead>
-											<tbody>
-												<?php $limit = 0; foreach($annual_sales_agents as $sale): if($sale->gender == 'f'): $limit++; ?>
-												<tr>
-													<td>
-														<p class="mb-0"><?= $sale->emp_name; ?></p>
-														<p class="text-secondary mb-1">Revenue: <?= number_format($sale->amount_received/1000000, 3); ?> M</p>
-													</td>
-												</tr>
-												<?php endif; if($limit == 10){ break; } endforeach; ?>
-											</tbody>
-										</table>
-									</div>
-									<div class="col-md-4 border-left">
-										<p class="font-weight-bold text-secondary">Top Agent, Team & BCM</p>
-										<table class="table table-sm">
-											<thead>
-												<tr class="text-secondary">
-													<th>Name & Revenue</th>
-												</tr>
-												<tr>
-													<td>
-														<p class="mb-0"><?= $annual_sales_agents[0]->emp_name; ?></p>
-														<p class="text-secondary mb-1">Reveue: <?= number_format($annual_sales_agents[0]->amount_received/1000000, 3); ?> M</p>
-													</td>
-												</tr>
-												<tr>
-													<td>
-														<p class="mb-0"><?= $annual_sales_teams[0]->team_name; ?></p>
-														<p class="text-secondary mb-1">Revenue: <?= number_format($annual_sales_teams[0]->received_amount/1000000, 3); ?> M</p>
-													</td>
-												</tr>
-												<tr>
-													<td>
-														<p class="mb-0"><?= $annual_sales_bcm->team_lead; ?></p>
-														<p class="text-secondary mb-1">Revenue: <?= number_format($annual_sales_bcm->total_revenue/1000000, 3); ?> M</p>
-													</td>
-												</tr>
-											</thead>
-											<tbody>
-												<tr>
-													<td></td>
-													<td></td>
-												</tr>
-											</tbody>
-										</table>
-									</div>
-								</div>
-							</div>
-						</div>
-                </div>
             </div>
 			<?php // Projects revenue
 				$zeroNineOne = 0;
@@ -475,7 +467,86 @@
 						</div>
 						<div class="card-body">
 							<div class="row">
-								<div class="col-md-6 border-right">
+								<div class="col-lg-6 col-md-6">
+									<legend class="mb-2">King, Queen of the Year</legend>
+									<div class="row">
+										<div class="col-md-4 table-responsive">
+											<h4 class="text-secondary">King of the Year</h4>
+											<table class="table table-sm">
+												<thead>
+													<tr class="text-secondary">
+														<th>Name & Revenue</th>
+													</tr>
+												</thead>
+												<tbody>
+													<?php $limit = 0; foreach($annual_sales_agents as $sale): if($sale->gender == 'm'): $limit++; ?>
+													<tr>
+														<td>
+															<p class="mb-0"><?= $sale->emp_name; ?></p>
+															<p class="text-secondary mb-1">Revenue: <?= number_format($sale->amount_received/1000000, 3); ?> M</p>
+														</td>
+													</tr>
+													<?php endif; if($limit == 10){ break; } endforeach; ?>
+												</tbody>
+											</table>
+										</div>
+										<div class="col-md-4 table-responsive border-left">
+											<h4 class="text-secondary">Queen of the Year</h4>
+											<table class="table table-sm">
+												<thead>
+													<tr class="text-secondary">
+														<th>Name & Revenue</th>
+													</tr>
+												</thead>
+												<tbody>
+													<?php $limit = 0; foreach($annual_sales_agents as $sale): if($sale->gender == 'f'): $limit++; ?>
+													<tr>
+														<td>
+															<p class="mb-0"><?= $sale->emp_name; ?></p>
+															<p class="text-secondary mb-1">Revenue: <?= number_format($sale->amount_received/1000000, 3); ?> M</p>
+														</td>
+													</tr>
+													<?php endif; if($limit == 10){ break; } endforeach; ?>
+												</tbody>
+											</table>
+										</div>
+										<div class="col-md-4 border-left">
+											<p class="font-weight-bold text-secondary">Top Agent, Team & BCM</p>
+											<table class="table table-sm">
+												<thead>
+													<tr class="text-secondary">
+														<th>Name & Revenue</th>
+													</tr>
+													<tr>
+														<td>
+															<p class="mb-0"><?= $annual_sales_agents[0]->emp_name; ?></p>
+															<p class="text-secondary mb-1">Reveue: <?= number_format($annual_sales_agents[0]->amount_received/1000000, 3); ?> M</p>
+														</td>
+													</tr>
+													<tr>
+														<td>
+															<p class="mb-0"><?= $annual_sales_teams[0]->team_name; ?></p>
+															<p class="text-secondary mb-1">Revenue: <?= number_format($annual_sales_teams[0]->received_amount/1000000, 3); ?> M</p>
+														</td>
+													</tr>
+													<tr>
+														<td>
+															<p class="mb-0"><?= $annual_sales_bcm->team_lead; ?></p>
+															<p class="text-secondary mb-1">Revenue: <?= number_format($annual_sales_bcm->total_revenue/1000000, 3); ?> M</p>
+														</td>
+													</tr>
+												</thead>
+												<tbody>
+													<tr>
+														<td></td>
+														<td></td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+									</div>
+								</div>
+								<div class="col-md-6 border-left">
 									<legend>Projects Revenue</legend>
 									<table class="table table-sm">
 										<thead>
@@ -541,35 +612,6 @@
 												</td>
 												<td><?= number_format($ahr/1000000, 2); ?> Million</td>
 												<td>Islamabad</td>
-											</tr>
-										</tbody>
-									</table>
-								</div>
-								<div class="col-md-6">
-									<legend>Business Center Mangers</legend>
-									<table class="table table-sm">
-										<thead>
-											<tr class="text-secondary">
-												<th>Designation</th>
-												<th>Name</th>
-												<th>Location</th>
-											</tr>
-										</thead>
-										<tbody>
-											<tr>
-												<td>BCM-I</td>
-												<td>Muhammad Akbar Arbab</td>
-												<td>Realtors, Ring road, Peshawar</td>
-											</tr>
-											<tr>
-												<td>BCM-II</td>
-												<td>Obaid ur Rehman</td>
-												<td>Realtors, Ring road, Peshawar</td>
-											</tr>
-											<tr>
-												<td>BCM-III</td>
-												<td>Isdaq Ahmad</td>
-												<td>Realtors, Ring road, Peshawar</td>
 											</tr>
 										</tbody>
 									</table>
