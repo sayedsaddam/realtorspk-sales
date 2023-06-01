@@ -184,7 +184,7 @@
                             </tr>
                             <tr>
                                 <td>
-									<div>BCM-II (<strong>Obaid ur Rehman</strong>) </div>
+									<div>BCM-II (<strong>Shahbaz Khan</strong>) </div>
 									<div><small>0.3% of total teams revenue goes to the BCM.</small></div>
 								</td>
                                 <td>
@@ -204,7 +204,7 @@
                             </tr>
                             <tr>
                                 <td>
-									<div>BCM-III (<strong>Aimal Khattak</strong>)</div>
+									<div>BCM-III (<strong>Isdaq Ahmad</strong>)</div>
 									<div><small>0.3% of total teams revenue goes to the BCM.</small></div>
 								</td>
                                 <td>
