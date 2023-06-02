@@ -205,12 +205,9 @@
                             <label for="city">City</label>
                             <select name="emp_city" class="custom-select emp_city mb-2" required>
                                 <option value="" disabled selected>-- Select One --</option>
-                                <option value="Islamabad">Islamabad</option>
-                                <option value="Peshawar">Peshawar</option>
-                                <option value="Hangu">Hangu</option>
-                                <option value="Kohat">Kohat</option>
-                                <option value="Mardan">Mardan</option>
-                                <option value="D.I Khan">D.I Khan</option>
+                                <?php foreach($locations as $location): ?>
+									<option value="<?= $location->name; ?>"><?= $location->name; ?></option>
+								<?php endforeach; ?>
                             </select>
                         </div>
                     </div>
