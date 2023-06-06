@@ -161,18 +161,12 @@
 													</tr>
 													<?php $total_isb += ($sale->received_amount); ?>
 												<?php endif; endforeach; ?>
-												<?php if($total_isb > 0): ?>
 													<tr class="total-revenue">
 														<td class="font-weight-bold">Total</td>
 														<td class="font-weight-bold"><?= number_format($total_targets_isb/1000000, 3); ?></td>
 														<td class="font-weight-bold"><?= number_format($total_isb/1000000, 3); ?></td>
 														<td class="font-weight-bold" colspan="2"><?= $total_isb > 0 ? number_format($total_isb/$total_targets_isb*100, 2).'%' : '0'; ?></td>
 													</tr>
-												<?php else: ?>
-													<tr class="table-danger">
-														<td colspan="5" align="center">No record found.</td>
-													</tr>
-												<?php endif; ?>
 												<?php else: ?>
 													<tr class="table-danger">
 														<td colspan="8" align="center">No record found!</td>
