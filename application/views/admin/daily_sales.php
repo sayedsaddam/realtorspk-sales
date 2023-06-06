@@ -147,7 +147,7 @@
             </small>
             <div class="card">
                 <div class="card-header bg-info text-white">
-                    <h3>Sales Stats - Realtors PK</h3>
+                    <h3>Sales Stats - Peshawar</h3>
                 </div>
                 <div class="card-body table-responsive">
                     <table class="table table-hover table-sm">
@@ -199,7 +199,7 @@
             </small>
             <div class="card">
                 <div class="card-header bg-info text-white">
-                    <h3>Sales Stats - Hangu</h3>
+                    <h3>Sales Stats - Islamabad</h3>
                 </div>
                 <div class="card-body table-responsive">
                     <table class="table table-hover table-sm">
@@ -213,10 +213,10 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <?php if(!empty($daily_sales_hangu)): $serial = 1; $hangu_total = 0; $hangu_targets = 0;
-                            foreach($daily_sales_hangu as $sale): ?>
-                            <?php $hangu_total += ((int)$sale->amount_received);
-                                    $hangu_targets += ((int)$sale->revenue_target); ?>
+                            <?php if(!empty($daily_sales_islamabad)): $serial = 1; $isbd_total = 0; $isbd_targets = 0;
+                            foreach($daily_sales_islamabad as $sale): ?>
+                            <?php $isbd_total += ((int)$sale->amount_received);
+                                    $isbd_targets += ((int)$sale->revenue_target); ?>
                                 <tr class="">
                                     <td><?= $serial++; ?></td>
                                     <td><a href="<?= base_url('admin/sale_detail/'.$sale->emp_id); ?>"><?= $sale->emp_name; ?></a></td>
@@ -227,8 +227,8 @@
                             <?php endforeach;?>
                                 <tr class="table-success">
                                     <td class="font-weight-bold">Total</td>
-                                    <td colspan="2" class="font-weight-bold" align="center"><?= number_format($hangu_targets); ?></td>
-                                    <td class="font-weight-bold"><?= number_format($hangu_total); ?></td>
+                                    <td colspan="2" class="font-weight-bold" align="center"><?= number_format($isbd_targets); ?></td>
+                                    <td class="font-weight-bold"><?= number_format($isbd_total); ?></td>
                                 </tr>
                             <?php else: ?>
                                 <tr class="table-danger">
