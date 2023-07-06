@@ -472,6 +472,7 @@ class Admin_model extends CI_Model{
                             SUM(IF(project="North Hills", rec_amount, 0)) as northHills,
 							SUM(IF(project="AH Tower", rec_amount, 0)) as ah_tower,
 							SUM(IF(project="AH City", rec_amount, 0)) as ah_city,
+							SUM(IF(project="AH Residencia", rec_amount, 0)) as ah_res,
                             daily_sales.id,
                             daily_sales.added_by,
                             daily_sales.rec_date,
