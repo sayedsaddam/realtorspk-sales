@@ -71,6 +71,17 @@ class Reporting_panel extends CI_Controller{
         $data['overall_report'] = $this->reporting_model->get_overall_report($date_from, $date_to);
         $this->load->view('admin/commons/admin_template', $data);
     }
+	// Zonal managers' report
+    public function zonal_report(){
+        $date_from = $this->input->get('date_from');
+        $date_to = $this->input->get('date_to');
+        $zonal = $this->input->get('zonal');
+        $data['title'] = 'Zonal Report > Reporting > AH Group';
+        $data['content'] = 'reporting-panel/reports';
+        $data['zonal_report'] = $this->reporting_model->get_zonal_report($date_from, $date_to, $zonal);
+        // echo '<pre>'; print_r($data['zonal_report']); exit;
+        $this->load->view('admin/commons/admin_template', $data);
+    }
     // region summary
     public function region_summary(){
         $data['title'] = 'Region Summary > Reporting > AH Group';

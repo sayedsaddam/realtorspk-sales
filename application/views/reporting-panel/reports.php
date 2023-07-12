@@ -414,6 +414,70 @@
             </div>
         </div>
     </div>
+<?php elseif(!empty($zonal_report)): ?>
+	<div class="container">
+        <div class="row">
+            <div class="col-8 mb-4">
+                <h3 class="mb-0">Revenue Detail</h3>
+                <span class="text-secondary font-weight-light d-print-none">About <?= count($zonal_report).' results in {elapsed_time} seconds'; ?></span>
+            </div>
+            <div class="col-4 mb-4">
+                <h3 class="mb-0">Manager's Detail</h3>
+                <a href="#0" onclick="window.print()" class="d-print-none text-secondary font-weight-light">Print</a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-8">
+                <table class="table table-reponsive table-sm">
+                    <thead>
+                        <tr>
+                            <th title="Employee code">Code</th>
+                            <th>Team</th>
+                            <th>Revenue</th>
+                            <th>Project</th>
+                            <th>Rec Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php if(!empty($zonal_report)):
+                            $total_revenue = 0;
+                            foreach($zonal_report as $rep): // @foreach
+                            $total_revenue += $rep->rec_amount; ?>
+                            <tr>
+                                <td><?= $rep->agent_id; ?></td>
+                                <td><?= $rep->team_name; ?></td>
+                                <td><?= number_format($rep->rec_amount); ?></td>
+                                <td><?= $rep->project; ?></td>
+                                <td><?= date('M d, Y', strtotime($rep->rec_date)); ?></td>
+                            </tr>
+                        <?php
+                         endforeach; 
+                            echo '<tr class="table-success"><th colspan="4">Total</th><th colspan="3">'.number_format($total_revenue).'</th></tr>';
+                            else: echo '<tr class="table-danger"><td colspan="3" align="center">No record found.</td></tr>';
+                        endif; ?>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-4">
+                <table class="table table-sm">
+                    <tbody>
+                        <tr>
+                            <th>Manager</th>
+                            <td><?= $_GET['zonal'] == 'zm1' ? 'Nasir Jalil' : 'Obaid ur Rehman'; ?></td>
+                        </tr>
+                        <tr>
+                            <th>No. of Sales</th>
+                            <td><?= count($zonal_report); ?></td>
+                        </tr>
+                        <tr>
+                            <th>Date Range</th>
+                            <td><?= date('M d, Y', strtotime($_GET['date_from'])).' to '.date('M d, Y', strtotime($_GET['date_to'])); ?></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 <?php else: ?>
     <div class="container">
         <div class="row">

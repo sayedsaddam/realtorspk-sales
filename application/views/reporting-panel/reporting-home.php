@@ -245,6 +245,47 @@
                         </form>
 					</div>
                 </div>
+				<div class="card">
+                    <div class="card-header">
+                        <h5>Sales Report - Zonal</h5>
+                    </div>
+                    <div class="card-body">
+                        <form action="<?= base_url('reporting_panel/zonal_report'); ?>" method="get">
+                            <div class="row no-gutters">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="from">From</label>
+                                        <input type="date" name="date_from" class="form-control form-control-sm">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group mx-2">
+                                        <label for="to">To</label>
+                                        <input type="date" name="date_to" class="form-control form-control-sm">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row no-gutters">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <select name="zonal" class="form-control form-control-sm">
+                                            <option value="" selected disabled>--select zonal--</option>
+                                            <option value="zm1">ZM 1</option>
+											<option value="zm2">ZM 2</option>
+											<option value="zm3">ZM 3</option>
+											<option value="zm4">ZM 4</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group mx-2">
+                                        <button type="submit" class="btn btn-dark btn-sm btn-block">Search</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

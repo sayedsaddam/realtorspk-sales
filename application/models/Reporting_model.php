@@ -138,6 +138,38 @@ class Reporting_model extends CI_Model{
         $this->db->order_by('received_amount', 'DESC');
         return $this->db->get()->result();
     }
+	// get zonal managers' report
+	public function get_zonal_report($date_from, $date_to, $zonal){
+        $zonal = '';
+        $zm1 = array('BCM-I', 'BCM-II');
+        $zm2 = array('BCM-III', 'BCM-IV');
+		$zm3 = array('BCM-V');
+		$zm4 = array('BCM-VI');
+        if($this->input->get('zonal') == 'zm1'){
+            $zonal = $zm1;
+        }elseif($this->input->get('zonal') == 'zm2'){
+            $zonal = $zm2;
+        }elseif($this->input->get('zonal') == 'zm3'){
+			$zonal = $zm3;
+		}else{
+			$zonal = $zm4;
+		}
+        $this->db->select('teams.team_id,
+                            teams.team_name,
+                            teams.team_lead,
+                            teams.bdm_name,
+                            daily_sales.rec_amount,
+                            daily_sales.rec_date,
+                            daily_sales.agent_id,
+                            daily_sales.project');
+        $this->db->from('teams');
+        $this->db->join('daily_sales', 'teams.team_id = daily_sales.team', 'left');
+        $this->db->where(array('daily_sales.rec_date >=' => $date_from, 'daily_sales.rec_date <=' => $date_to, 'daily_sales.rec_amount >' => 0));
+        $this->db->where_in('teams.team_lead', $zonal);
+        $this->db->order_by('daily_sales.rec_date', 'DESC');
+        // echo "<pre>"; print_r($this->db->get()->result()); echo $this->db->last_query(); exit;
+        return $this->db->get()->result();
+    }
     // Get all projects summary
     public function projects_summary(){
         $this->db->select('SUM(if(project="091 Mall", rec_amount, 0)) as zero_nine_one_mall,
