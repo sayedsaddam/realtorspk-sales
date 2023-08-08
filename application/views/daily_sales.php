@@ -404,7 +404,7 @@
 											if(!empty($bcms)):
 												$total_targets_bcms = 0;
 												$total_sales_bcms = 0;
-												$managers = array('Muhammad Akbar Arbab', 'Shahbaz Khan', 'Isdaq Ahmad');
+												$managers = array('Isdaq Ahmad', 'Shahbaz Khan', 'Muhammad Arshad', 'Ikram Ullah', 'Zahid Jan');
 												foreach($bcms as $bcm):
 										?>
 										<tr>
