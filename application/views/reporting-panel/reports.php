@@ -414,6 +414,57 @@
             </div>
         </div>
     </div>
+<?php elseif(!empty($city_report)): ?>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12 mb-4">
+                <h3 class="mb-0">
+                    Sales report of <?= strtoupper($_GET['city']). ' from '. date('M d, Y', strtotime($_GET['date_from'])). ' to '. date('M d, Y', strtotime($_GET['date_to'])); ?>
+                </h3>
+                <span class="text-secondary font-weight-light d-print-none">About <?= count($city_report).' results in {elapsed_time} seconds'; ?></span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <table class="table table-sm">
+                    <thead>
+                        <tr>
+                            <th>S#</th>
+                            <th>Name</th>
+                            <th>DoJ</th>
+                            <?php foreach ($city_report[0]['months'] as $month): ?>
+                                <th><?php echo ($month['rec_month']); ?></th>
+                            <?php endforeach; ?>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                   <tbody>
+                        <?php $totalAmountReceived = 0; $serial = 1; foreach ($city_report as $row): ?>
+                            <tr>
+                                <td><?= $serial++; ?></td>
+                                <td>
+                                    <?php echo $row['emp_status'] == 1 ? '&check;' : '&times;'; ?>
+                                    <?php echo $row['emp_name']; ?>
+                                </td>
+                                <td><?php echo date('M d, Y', strtotime($row['doj'])); ?></td>
+                                <?php $totalByAgent = 0; foreach ($row['months'] as $month): ?>
+                                    <?php $receivedAmount = isset($month['received_amount']) ? $month['received_amount'] : 0; $totalByAgent += $month['received_amount']; ?>
+                                    <td>
+                                        <?php echo number_format($receivedAmount); ?>
+                                    </td>
+                                <?php $totalAmountReceived += $receivedAmount; endforeach; ?>
+                                <th class="table-success"><?= number_format($totalByAgent); ?></th>
+                            </tr>
+                        <?php endforeach; ?>
+                        <tr class="table-success">
+                            <th colspan="9">Total</th>
+                            <th><?= number_format($totalAmountReceived); ?></th>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 <?php elseif(!empty($zonal_report)): ?>
 	<div class="container">
         <div class="row">

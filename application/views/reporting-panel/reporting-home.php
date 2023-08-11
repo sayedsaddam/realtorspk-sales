@@ -289,6 +289,53 @@
             </div>
         </div>
     </div>
+	<div class="row mt-4 mb-5">
+		<div class="col-12">
+			<div class="card-deck">
+				<div class="card">
+                    <div class="card-header">
+						<h5>Sales Report - City</h5>
+					</div>
+                    <div class="card-body">
+						<form action="<?= base_url('reporting_panel/city_report'); ?>" method="get">
+                            <div class="row no-gutters">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="from">From</label>
+                                        <input type="date" name="date_from" class="form-control form-control-sm">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group mx-2">
+                                        <label for="to">To</label>
+                                        <input type="date" name="date_to" class="form-control form-control-sm">
+                                    </div>
+                                </div>
+                            </div>
+                            <?php $cities = array('Islamabad', 'Peshawar', 'Hangu', 'Kohat', 'Mardan', 'dikhan'); ?>
+                            <div class="row no-gutters">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <select name="city" class="form-control form-control-sm">
+                                            <option value="" selected disabled>--select city--</option>
+                                            <?php foreach($cities as $city): ?>
+                                                <option value="<?= $city; ?>"><?= strtoupper($city); ?></option>
+                                            <?php endforeach; ?>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group mx-2">
+                                        <button type="submit" class="btn btn-dark btn-sm btn-block">Search</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+					</div>
+                </div>
+			</div>
+		</div>
+	</div>
 </div>
 <script>
 $(document).ready(function(){

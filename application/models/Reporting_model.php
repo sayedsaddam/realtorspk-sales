@@ -138,6 +138,46 @@ class Reporting_model extends CI_Model{
         $this->db->order_by('received_amount', 'DESC');
         return $this->db->get()->result();
     }
+    // Filter records by target
+    public function get_city_report($date_from, $date_to, $city){
+        $from = date('Y-m-d', strtotime($date_from));
+        $to = date('Y-m-d', strtotime($date_to));
+        $this->db->select('SUM(daily_sales.rec_amount) as received_amount,
+                            MONTHNAME(daily_sales.rec_date) as rec_month,
+                            employees.emp_code,
+                            employees.emp_name,
+                            employees.emp_city,
+                            employees.doj,
+                            employees.emp_status');
+        $this->db->from('daily_sales');
+        $this->db->join('employees', 'daily_sales.agent_id = employees.emp_code', 'left');
+        $this->db->where(array('daily_sales.rec_date >=' => $from, 'daily_sales.rec_date <=' => $to));
+        $this->db->where('employees.emp_city', $city);
+        $this->db->group_by('daily_sales.agent_id');
+        $this->db->group_by('MONTH(daily_sales.rec_date)');
+        // $this->db->order_by('received_amount');
+        // $this->db->order_by('received_amount', 'DESC');
+        $results = $this->db->get()->result();
+        $formattedResults = array();
+        foreach ($results as $result){
+            $empCode = $result->emp_code;
+            if (!isset($formattedResults[$empCode])) {
+                $formattedResults[$empCode] = array(
+                    'months' => array(),
+                    'emp_code' => $result->emp_code,
+                    'emp_name' => $result->emp_name,
+                    'emp_city' => $result->emp_city,
+                    'doj' => $result->doj,
+                    'emp_status' => $result->emp_status
+                );
+            }
+            $formattedResults[$empCode]['months'][] = array(
+                'received_amount' => $result->received_amount,
+                'rec_month' => $result->rec_month
+            );
+        }
+        return array_values($formattedResults);
+    }
 	// get zonal managers' report
 	public function get_zonal_report($date_from, $date_to, $zonal){
         $zonal = '';
