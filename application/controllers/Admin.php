@@ -233,6 +233,7 @@ class Admin extends CI_Controller{
         // $data['last_updated_by'] = $this->admin_model->last_updated_by();
         $this->load->view('admin/commons/admin_template', $data);
     }
+    //ahsan
     // Get sales agents for assigning targets.
     public function get_sales_agents($city){
         $filter_data = $this->admin_model->get_sales_agents($city);
