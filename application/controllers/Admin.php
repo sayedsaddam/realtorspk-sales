@@ -563,14 +563,23 @@ class Admin extends CI_Controller{
         // echo json_encode($data['results']);
         $this->load->view('admin/commons/admin_template', $data);
     }
-    // Managers' commissions > Peshawar.
-    public function commissions(){
+    // Managers' commissions > Peshawar and dynamic.
+    public function commissions($city){
         $data['title'] = 'Commissions > Sales Reporting > Daily Sales';
         $data['content'] = 'admin/commissions';
-        $data['daily_sales'] = $this->home_model->get_daily_sales();
-        $data['teams_report'] = $this->home_model->get_teams_report();
+        $data['city'] = $city;
+        $data['daily_sales'] = $this->admin_model->get_daily_sales($city);
+        $data['teams_report'] = $this->admin_model->get_teams_report($city);
         $this->load->view('admin/commons/admin_template', $data);
     }
+// Managers' commissions > charsadah.
+// public function commissions_charsaddah(){
+//     $data['title'] = 'Commissions > Sales Reporting > Daily Sales';
+//     $data['content'] = 'admin/commissions_charsaddah';
+//     $data['daily_sales'] = $this->home_model->get_daily_sales('charsaddah');
+//     $data['teams_report'] = $this->home_model->get_teams_report();
+//     $this->load->view('admin/commons/admin_template', $data);
+// }
     // Filter mangagers' commissions by month.
     public function filter_by_month(){
         $month = date('F, Y', strtotime($this->input->get('month')));
