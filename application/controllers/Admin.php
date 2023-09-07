@@ -559,6 +559,7 @@ class Admin extends CI_Controller{
         $data['title'] = 'Search Results > Sales Reporting > Daily Sales';
         $data['content'] = 'admin/sales_report';
         $data['teams'] = $this->admin_model->get_sales_teams();
+        $data['locations'] = $this->reporting_model->get_locations();
         $data['results'] = $this->admin_model->get_sales_report($month, $date_from, $date_to, $team, $city, $agent, $project);
         // echo json_encode($data['results']);
         $this->load->view('admin/commons/admin_template', $data);

@@ -13,9 +13,9 @@
                 <a href="<?= base_url('admin/dashboard'); ?>"
                     class="btn btn-outline-light btn-lg btn-block mb-2">Dashboard</a>
                 <a href="<?= base_url('admin/commissions/peshawar'); ?>" class="btn btn-outline-light">Peshawar</a>
-                <a href="<?= base_url('admin/commissions/charsaddha') ?>" class="btn btn-outline-light">Charsaddah</a>
+                <a href="<?= base_url('admin/commissions/charsaddha'); ?>" class="btn btn-outline-light">Charsaddah</a>
                 <a href="<?= base_url('admin/commissions/Islamabad'); ?>" class="btn btn-outline-light">Islamabad</a>
-                <a href="<?= base_url('reporting_panel/region_summary') ?>" class="btn btn-outline-light">Summary</a>
+                <a href="<?= base_url('reporting_panel/region_summary'); ?>" class="btn btn-outline-light">Summary</a>
             </div>
         </div>
     </div>
