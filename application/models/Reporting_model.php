@@ -144,6 +144,8 @@ class Reporting_model extends CI_Model{
         $to = date('Y-m-d', strtotime($date_to));
         $this->db->select('SUM(daily_sales.rec_amount) as received_amount,
                             MONTHNAME(daily_sales.rec_date) as rec_month,
+                            MONTH(daily_sales.rec_date) as rec_months,
+                            YEAR(daily_sales.rec_date) as rec_year,
                             employees.emp_code,
                             employees.emp_name,
                             employees.emp_city,
@@ -155,6 +157,55 @@ class Reporting_model extends CI_Model{
         $this->db->where('employees.emp_city', $city);
         $this->db->group_by('daily_sales.agent_id');
         $this->db->group_by('MONTH(daily_sales.rec_date)');
+        $this->db->group_by('YEAR(daily_sales.rec_date)');
+        $this->db->order_by('emp_code','asc');
+        $this->db->order_by('rec_months' ,'desc');
+        $this->db->order_by('rec_year','desc');
+        // $this->db->order_by('received_amount', 'DESC');
+        $results = $this->db->get()->result();
+        $formattedResults = array();
+        foreach ($results as $result){
+            $empCode = $result->emp_code;
+            if (!isset($formattedResults[$empCode])) {
+                $formattedResults[$empCode] = array(
+                    'months' => array(),
+                    'emp_code' => $result->emp_code,
+                    'emp_name' => $result->emp_name,
+                    'emp_city' => $result->emp_city,
+                    'doj' => $result->doj,
+                    'emp_status' => $result->emp_status
+                );
+                }
+                // Get the short month name (e.g., "Mar" for March)
+                $dateTime = DateTime::createFromFormat('!m', $result->rec_months);
+                $monthShortName = $dateTime->format('M');
+                $formattedResults[$empCode]['months'][] = array(
+                    'received_amount' => $result->received_amount,
+                    'rec_month' => $monthShortName,
+                    'rec_months' => $result->rec_months,
+                    'rec_year' => $result->rec_year
+                );
+            }
+        return array_values($formattedResults);
+    }
+    // Filter records by target
+    public function get_city_report_by_months($date_from, $date_to, $city){
+        $from = date('Y-m-d', strtotime($date_from));
+        $to = date('Y-m-d', strtotime($date_to));
+        $this->db->select('SUM(daily_sales.rec_amount) as received_amount,
+                            MONTHNAME(daily_sales.rec_date) as rec_month,
+                            employees.emp_code,
+                            employees.emp_name,
+                            employees.emp_city,
+                            employees.doj,
+                            employees.emp_status');
+        $this->db->from('daily_sales');
+        $this->db->join('employees', 'daily_sales.agent_id = employees.emp_code', 'left');
+        $this->db->where(array('daily_sales.rec_date >=' => $from, 'daily_sales.rec_date <=' => $to));
+        $this->db->where('employees.emp_city', $city);
+        $this->db->group_by('daily_sales.agent_id');
+        $this->db->group_by('MONTH(daily_sales.rec_date)');
+        $this->db->order_by('employees.doj');
         // $this->db->order_by('received_amount');
         // $this->db->order_by('received_amount', 'DESC');
         $results = $this->db->get()->result();
@@ -176,6 +227,7 @@ class Reporting_model extends CI_Model{
                 'rec_month' => $result->rec_month
             );
         }
+        //print_r($formattedResults);exit;
         return array_values($formattedResults);
     }
 	// get zonal managers' report

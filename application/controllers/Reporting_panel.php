@@ -78,8 +78,83 @@ class Reporting_panel extends CI_Controller{
         $city = $this->input->get('city');
         $data['title'] = 'City Report > Reporting > AH Group';
         $data['content'] = 'reporting-panel/reports';
-        $data['city_report'] = $this->reporting_model->get_city_report($date_from, $date_to, $city);
-        // echo '<pre>'; print_r($data['city_report']); exit;
+        $val = $this->reporting_model->get_city_report($date_from, $date_to, $city);
+        //$data['city_report'] = $this->reporting_model->get_city_report($date_from, $date_to, $city);
+
+        $month_to = date('m', strtotime($date_to));
+        $month_from = date('m', strtotime($date_from));
+        $year_to = date('Y', strtotime($date_to)); // Use uppercase 'Y' for the full year (4 digits)
+        $year_from = date('Y', strtotime($date_from)); // Use uppercase 'Y' for the full year (4 digits)
+
+
+        $dat = array();
+
+        // Initialize an empty array to store month-year combinations
+        $monthYearColumns = array('Name','code');
+        $footer = array('Total','');
+
+        $startDate = new DateTime("$year_from-$month_from-01");
+        $endDate = new DateTime("$year_to-$month_to-01");
+
+        $currentDate = clone $startDate;
+
+        while ($currentDate <= $endDate) {
+            $columnLabel = $currentDate->format('M Y');
+            array_push($monthYearColumns, $columnLabel);
+            $currentDate->add(new DateInterval('P1M')); // Increment by one month
+        }
+        array_push($monthYearColumns,"Total");
+
+
+        // Access employee data (assuming $val contains the data)
+        foreach ($val as $employee) {
+            // Initialize an associative array for this employee
+            $employeeData = array();
+            $emp_code = $employee['emp_code'];
+            $total_sale=0;
+
+            if (!isset($employeeData[$emp_code])) {
+
+                // Access common employee information
+                $employeeData['code'] = $employee['emp_code'];
+                $employeeData['Name'] = $employee['emp_name'];
+                }
+            // Loop through the months array for each employee
+            foreach ($employee['months'] as $monthData) {
+                $columnLabel = $monthData['rec_month'] . ' ' . $monthData['rec_year'];
+                if($monthData['received_amount']>0)
+                {$employeeData[$columnLabel] = $monthData['received_amount'];
+                    $total_sale+=$monthData['received_amount'];
+                    if (!isset($footer[$columnLabel])) {
+                        $footer[$columnLabel]=0;
+                        }
+                    $footer[$columnLabel] +=$monthData['received_amount'];
+                }
+            }
+            
+
+            // Fill missing months with zero
+            foreach ($monthYearColumns as $columnLabel) {
+                if (!isset($employeeData[$columnLabel])) {
+                   $employeeData[$columnLabel] = 0;
+                }
+                if($columnLabel=="Total"){
+                    $employeeData["Total"]=$total_sale;
+                }
+                if (!isset($footer[$columnLabel])&&$columnLabel!='Name'&&$columnLabel!='code'&&$columnLabel!='Total') {
+                    $footer[$columnLabel]=0;
+                    }   
+            }
+
+            $dat[$employee['emp_code']]=$employeeData;
+            }
+            //echo '<pre>'; print_r($dat); exit;
+            $data['city_report']=$dat;
+            $data['columns']=$monthYearColumns;
+            $data['total_columns'] =count($monthYearColumns);
+            $data['footers']=$footer;
+            //echo '<pre>';print_r($footer);exit;
+        //exit;
         $this->load->view('admin/commons/admin_template', $data);
     }
 	// Zonal managers' report
