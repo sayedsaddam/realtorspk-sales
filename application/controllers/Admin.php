@@ -233,6 +233,7 @@ class Admin extends CI_Controller{
         // $data['last_updated_by'] = $this->admin_model->last_updated_by();
         $this->load->view('admin/commons/admin_template', $data);
     }
+    //ahsan
     // Get sales agents for assigning targets.
     public function get_sales_agents($city){
         $filter_data = $this->admin_model->get_sales_agents($city);
@@ -558,18 +559,28 @@ class Admin extends CI_Controller{
         $data['title'] = 'Search Results > Sales Reporting > Daily Sales';
         $data['content'] = 'admin/sales_report';
         $data['teams'] = $this->admin_model->get_sales_teams();
+        $data['locations'] = $this->reporting_model->get_locations();
         $data['results'] = $this->admin_model->get_sales_report($month, $date_from, $date_to, $team, $city, $agent, $project);
         // echo json_encode($data['results']);
         $this->load->view('admin/commons/admin_template', $data);
     }
-    // Managers' commissions > Peshawar.
-    public function commissions(){
+    // Managers' commissions > Peshawar and dynamic.
+    public function commissions($city){
         $data['title'] = 'Commissions > Sales Reporting > Daily Sales';
         $data['content'] = 'admin/commissions';
-        $data['daily_sales'] = $this->home_model->get_daily_sales();
-        $data['teams_report'] = $this->home_model->get_teams_report();
+        $data['city'] = $city;
+        $data['daily_sales'] = $this->admin_model->get_daily_sales($city);
+        $data['teams_report'] = $this->admin_model->get_teams_report($city);
         $this->load->view('admin/commons/admin_template', $data);
     }
+// Managers' commissions > charsadah.
+// public function commissions_charsaddah(){
+//     $data['title'] = 'Commissions > Sales Reporting > Daily Sales';
+//     $data['content'] = 'admin/commissions_charsaddah';
+//     $data['daily_sales'] = $this->home_model->get_daily_sales('charsaddah');
+//     $data['teams_report'] = $this->home_model->get_teams_report();
+//     $this->load->view('admin/commons/admin_template', $data);
+// }
     // Filter mangagers' commissions by month.
     public function filter_by_month(){
         $month = date('F, Y', strtotime($this->input->get('month')));
