@@ -581,7 +581,7 @@ $(document).ready(function() {
     // Initialize DataTable
     var dataTable = $('#tableCityReport').DataTable({
         searching: true,
-        paging: true,
+        paging: false,
         "autoWidth": false,
         "columnDefs": [{
             "width": "100px",
@@ -593,9 +593,6 @@ $(document).ready(function() {
             title: '',
             footer: 'ture',
             customize: function(win) {
-                // Add custom content to the print window
-                $(win.document.body).prepend('<h2>Your Report Title</h2>');
-
                 $(win.document.body).find('tfoot').remove();
 
                 // Create a customized footer
@@ -649,14 +646,6 @@ $(document).ready(function() {
         "footerCallback": function(row, data, start, end, display) {
             var api = this.api(),
                 data;
-
-            // Remove formatting to get integer data for sumt
-            // var intVal = function(j) {
-            //     return typeof j === 'string' ?
-            //         j.replace(/[\$,]/g, '') * 1 :
-            //         typeof j === 'number' ?
-            //         j : 0;
-            // };
 
             console.log(totalColumns);
             for (let i = 2; i < totalColumns; i++) {
