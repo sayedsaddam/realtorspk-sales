@@ -612,7 +612,12 @@
                 "targets": "_all"
             }],
             dom: 'Bfrtip',
-            buttons: ['pdf', 'excel', {
+            buttons: [{
+                extend:'pdf',
+                title:'',
+                footer:'ture'
+            },
+             'excel', {
                 extend: 'print',
                 title: '',
                 footer: 'ture',
