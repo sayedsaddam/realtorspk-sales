@@ -7,8 +7,9 @@ $total_amount_bcm1=0;
 <div class="container">
     <div class="row mt-3 d-print-none">
         <div class="col-md-7">
-            <form action="<?=base_url('admin/filter_by_month');?>" method="get">
+            <form action="<?= base_url('admin/filter_by_month/'); ?>" method="get">
                 <div class="input-group">
+                    <input type="hidden" name="city" value="<?= $city ?>">
                     <input type="month" name="month" class="form-control" required>
                     <div class="input-group-append">
                         <input type="submit" class="btn btn-primary" value="Generate Report">

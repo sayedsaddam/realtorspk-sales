@@ -238,6 +238,44 @@ class Admin_model extends CI_Model{
         return $this->db->get()->result();
     }
 
+
+    public function get_daily_sales_by_month($city,$month){
+        $this->db->select(
+                            'SUM(IF(project="091 Mall", rec_amount, 0)) as zero_nine_one,
+                            SUM(IF(project="Florenza", rec_amount, 0)) as florenza,
+                            SUM(IF(project="AH Tower", rec_amount, 0)) as aht,
+							SUM(IF(project="North Hills", rec_amount, 0)) as nh,
+							SUM(IF(project="MoH", rec_amount, 0)) as moh,
+							SUM(IF(project="AH City", rec_amount, 0)) as ahc,
+							SUM(IF(project="AH Residencia", rec_amount, 0)) as ahr,
+                            SUM(rec_amount) as received_amount,
+                            daily_sales.id,
+                            daily_sales.rebate,
+                            daily_sales.added_by,
+                            daily_sales.rec_date,
+                            daily_sales.agent_id,
+                            daily_sales.rec_amount,
+                            daily_sales.project,
+                            daily_sales.created_at,
+                            employees.id,
+                            employees.emp_code,
+                            employees.emp_name,
+							employees.gender,
+							employees.emp_city,
+                            employees.emp_team,
+                            targets.id,
+                            targets.target_month,
+                            targets.revenue_target');
+        $this->db->from('targets');
+        $this->db->join('employees', 'employees.emp_code = targets.emp_id', 'left');
+        $this->db->join('daily_sales', 'targets.emp_id = daily_sales.agent_id', 'left');
+        $this->db->where(array('employees.emp_city' => $city, 'target_month' => date('F, Y', strtotime($month))));
+        $this->db->like('daily_sales.rec_date', date('Y-m', strtotime($month)));
+        $this->db->order_by('received_amount', 'DESC');
+        $this->db->group_by('targets.emp_id');
+        return $this->db->get()->result();
+    }
+
     // Get teams report and display it on the leader board > Peshawar and dynamics teams.
     public function get_teams_report($city){
          $this->db->select('teams.team_id,
@@ -266,6 +304,36 @@ class Admin_model extends CI_Model{
         // echo "<pre>"; print_r($this->db->get()->result()); echo $this->db->last_query(); exit;
         return $this->db->get()->result();
     }
+
+
+    // Get teams report by month and display it on the leader board > Peshawar and dynamics teams.
+    public function get_teams_report_by_month($city,$month){
+        $this->db->select('teams.team_id,
+                           teams.team_name,
+                           teams.team_lead,
+                           teams.bdm_name,
+                           employees.emp_code,
+                           employees.emp_team,
+                           employees.emp_city,
+                           SUM(rec_amount) as received_amount,
+                           daily_sales.id,
+                           daily_sales.rec_date,
+                           targets.id,
+                           targets.target_month,
+                           targets.revenue_target,
+                           SUM(revenue_target) as total_target');
+       $this->db->from('teams');
+       $this->db->join('employees', 'teams.team_id = employees.emp_team');
+       $this->db->join('daily_sales', 'employees.emp_code = daily_sales.agent_id');
+       $this->db->join('targets', 'daily_sales.agent_id = targets.emp_id');
+       $this->db->where(array('employees.emp_city' => $city, 'targets.target_month' => date('F, Y', strtotime($month))));
+       $this->db->like('daily_sales.rec_date', date('Y-m', strtotime($month)));
+       $this->db->where_not_in('teams.team_name', array('BCM-1', 'BCM-2', 'BCM-3'));
+       $this->db->group_by('teams.team_id');
+       $this->db->order_by('received_amount', 'DESC');
+       // echo "<pre>"; print_r($this->db->get()->result()); echo $this->db->last_query(); exit;
+       return $this->db->get()->result();
+   }
 
     // Get daily sales and display them on the website's front - Kohat.
     public function get_daily_sales_charsaddah(){

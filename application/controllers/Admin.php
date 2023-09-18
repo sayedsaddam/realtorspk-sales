@@ -573,20 +573,17 @@ class Admin extends CI_Controller{
         $data['teams_report'] = $this->admin_model->get_teams_report($city);
         $this->load->view('admin/commons/admin_template', $data);
     }
-// Managers' commissions > charsadah.
-// public function commissions_charsaddah(){
-//     $data['title'] = 'Commissions > Sales Reporting > Daily Sales';
-//     $data['content'] = 'admin/commissions_charsaddah';
-//     $data['daily_sales'] = $this->home_model->get_daily_sales('charsaddah');
-//     $data['teams_report'] = $this->home_model->get_teams_report();
-//     $this->load->view('admin/commons/admin_template', $data);
-// }
+
     // Filter mangagers' commissions by month.
     public function filter_by_month(){
+        $city = $this->input->get('city');
         $month = date('F, Y', strtotime($this->input->get('month')));
         $data['title'] = 'Monthly Commissions > Sales Reporting > Daily Sales';
         $data['content'] = 'admin/commissions';
-        $data['monthly_commissions'] = $this->admin_model->teams_report_by_month($month);
+        $data['city'] = $city;
+        $data['daily_sales'] = $this->admin_model->get_daily_sales_by_month($city,$month);
+        $data['teams_report'] = $this->admin_model->get_teams_report_by_month($city,$month);
+        //$data['monthly_commissions'] = $this->admin_model->teams_report_by_month($month);
         $this->load->view('admin/commons/admin_template', $data);
     }
     // Filter mangagers' commissions by month.
