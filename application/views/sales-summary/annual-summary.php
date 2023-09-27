@@ -31,11 +31,11 @@
                                  <th>No. of Agents</th>
                                  <th>Total Target</th>
                               </tr>
-                              <?php if(!empty($targets)): $total_target = 0; foreach($targets as $key => $target): ?>
+                              <?php if(!empty($merged_targets_sales)): foreach($merged_targets_sales as $key => $target): ?>
                               <tr>
                                  <th><?= $target->target_month; ?></th>
                                  <td><?= $total_employees[$key] = $target->total_employees; ?></td>
-                                 <td><?= number_format($target->total_revenue_target/1000000, 2).'M'; $total_target = $target->total_revenue_target; ?></td>
+                                 <td><?= number_format($target->total_revenue_target/1000000, 2).'M';  ?></td>
                               </tr>
                               <?php endforeach; endif; ?>
                            </tbody>
@@ -52,12 +52,12 @@
                                  <th>%age</th>
                                  <th>Average</th>
                               </tr>
-                              <?php if(!empty($sales)): foreach($sales as $key => $sale): ?>
+                              <?php if(!empty($merged_targets_sales)): foreach($merged_targets_sales as $key => $sale): ?>
                               <tr>
                                  <th><?= date('F, Y', strtotime($sale->rec_date)); ?></th>
                                  <td><?= number_format($sale->total_amount/1000000, 2).'M'; ?></td>
-                                 <td><?= $sale->total_amount > 0 ? round($sale->total_amount/$total_target*100, 2) . '%' : '0'; ?></td>
-                                 <td><?= number_format($sale->total_amount/$total_employees[$key]); ?></td>
+                                 <td><?= $sale->total_amount > 0 ? round($sale->total_amount/$sale->total_revenue_target*100, 2) . '%' : '0'; ?></td>
+                                 <td><?= number_format($sale->total_amount/$sale->total_employees); ?></td>
                               </tr>
                               <?php endforeach; endif; ?>
                            </tbody>

@@ -195,9 +195,16 @@ class Reporting_panel extends CI_Controller{
     public function annual_summary($city){
         $data['title'] = 'Annual Summary > Reporting > AH Group';
         $data['content'] = 'sales-summary/annual-summary';
-        $data['targets'] = $this->reporting_model->annual_summary_targets($city);
-        $data['sales'] = $this->reporting_model->annual_summary_sales($city);
-        $data['city'] = $data['targets'][0]->emp_city;
+        $targets = $this->reporting_model->annual_summary_targets($city);
+        $sales = $this->reporting_model->annual_summary_sales($city);
+        $merged_targets_sales = [];
+        for ($i = 0; $i < count($targets); $i++) {
+            $mergedObject = (object)array_merge((array)$targets[$i], (array)$sales[$i]);
+            $merged_targets_sales[] = $mergedObject;
+        }
+        //print_r($mergedArray);exit;
+        $data['city'] = $targets[0]->emp_city;
+        $data['merged_targets_sales'] = $merged_targets_sales;
         $this->load->view('admin/commons/admin_template', $data);
     }
     // charts
